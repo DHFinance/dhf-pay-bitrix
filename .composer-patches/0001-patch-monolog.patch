@@ -1,0 +1,32 @@
+From 411a6eb55efd50dfcfe333b51606f64ac4d5d156 Mon Sep 17 00:00:00 2001
+From: Marat Shamshutdinov <marat@citrus-soft.ru>
+Date: Thu, 5 May 2022 10:50:05 +0300
+Subject: [PATCH 1/2] Workaround for encoding conversion problems due to Bitrix Marketplace limitations
+
+---
+ src/Monolog/Utils.php | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/src/Monolog/Utils.php b/src/Monolog/Utils.php
+index 726c981..f15b4b8 100644
+--- a/src/Monolog/Utils.php
++++ b/src/Monolog/Utils.php
+@@ -219,11 +219,10 @@ final class Utils
+                 $pcreErrorCode = preg_last_error();
+                 throw new \RuntimeException('Failed to preg_replace_callback: ' . $pcreErrorCode . ' / ' . self::pcreLastErrorMessage($pcreErrorCode));
+             }
+-            $data = str_replace(
+-                ['¤', '¦', '¨', '´', '¸', '¼', '½', '¾'],
+-                ['€', 'Š', 'š', 'Ž', 'ž', 'Œ', 'œ', 'Ÿ'],
+-                $data
+-            );
++	        /**
++	         * Note: original statements here lead to encoding conversion problems. File used to be truncated here if downloaded as a module from https://marketplace.1c-bitrix.ru
++	         */
++			trigger_error('Possible incorrect output due to encoding conversion problems and Bitrix Marketplace limitations', E_USER_WARNING);
+         }
+     }
+
+--
+2.20.1
+

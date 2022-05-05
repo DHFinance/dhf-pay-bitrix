@@ -1,0 +1,11 @@
+CREATE TABLE citrus_dhfi_payments
+(
+    ID          INT PRIMARY KEY,
+    ENTITY_ID   INT NOT NULL,
+    ENTITY_TYPE INT NOT NULL,
+    AMOUNT      DECIMAL(12, 2) NOT NULL,
+    STATUS      VARCHAR(32) DEFAULT 'Not_paid' NULL,
+    CONSTRAINT UX_ID UNIQUE (ID)
+);
+
+CREATE INDEX IX_ENTITY_ID ON citrus_dhfi_payments (ENTITY_ID);

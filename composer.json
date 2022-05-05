@@ -1,0 +1,53 @@
+{
+  "name": "citrus-soft/dhfi",
+  "description": "Приём оплаты по счетам CRM через DHFinance",
+  "type": "bitrix-d7-module",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "keywords": [
+    "bitrix24",
+    "DHFi",
+    "invoice",
+    "cryptocurrency",
+    "payment"
+  ],
+  "support": {
+    "email": "support@citrus-soft.ru"
+  },
+  "extra": {
+    "installer-name": "citrus.dhfi",
+    "patches": {
+      "monolog/monolog": {
+        "Workaround for encoding conversion problems due to Bitrix Marketplace limitations": ".composer-patches/0001-patch-monolog.patch"
+      },
+      "dhfinance/dhf-pay-php": {
+        "Hotfix https://github.com/DHFinance/dhf-pay-php/pull/4": ".composer-patches/0002-patch-DHFPay.patch"
+      }
+    }
+  },
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "composer/installers": "~1",
+    "dhfinance/dhf-pay-php": "*",
+    "spatie/data-transfer-object": "^2.8",
+    "monolog/monolog": "^2.5",
+    "cweagans/composer-patches": "^1.7",
+    "citrus-soft/core-module-options": "^0.3.0"
+  },
+  "require-dev": {
+    "vlucas/phpdotenv": "^5.4",
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Citrus\\DHFi\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": {
+      "*": "dist"
+    }
+  }
+}
