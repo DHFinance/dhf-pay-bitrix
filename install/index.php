@@ -250,6 +250,8 @@ class citrus_dhfi extends CModule
 	 */
 	public function InstallFiles()
 	{
+		CopyDirFiles(__DIR__ . "/php_interface", $_SERVER["DOCUMENT_ROOT"] . BX_ROOT . "/php_interface", true, true);
+		CopyDirFiles(__DIR__ . "/images", $_SERVER["DOCUMENT_ROOT"] . BX_ROOT . "/images", true, true);
 		CopyDirFiles(__DIR__ . "/public", $_SERVER["DOCUMENT_ROOT"] . "/", true, true);
 		CopyDirFiles(__DIR__ . "/js", $_SERVER["DOCUMENT_ROOT"] . ModuleLocation::getBxRoot() . "/js", true, true);
 
@@ -278,6 +280,8 @@ class citrus_dhfi extends CModule
 	 */
 	public function UninstallFiles()
 	{
+		$this->removeInstalled(__DIR__ . "/php_interface", $_SERVER["DOCUMENT_ROOT"] . BX_ROOT . "/php_interface");
+		$this->removeInstalled(__DIR__ . "/images", $_SERVER["DOCUMENT_ROOT"] . BX_ROOT . "/images");
 		$this->removeInstalled(__DIR__ . "/public", $_SERVER["DOCUMENT_ROOT"] . "/");
 		$this->removeInstalled(__DIR__ . "/js", $_SERVER["DOCUMENT_ROOT"] . ModuleLocation::getBxRoot() . "/js");
 

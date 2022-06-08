@@ -1,0 +1,8 @@
+<?php
+$MESS['CITRUS_DHFI_PAYSYSTEM_NAME'] = 'DHFinance';
+$MESS['CITRUS_DHFI_PAYSYSTEM_STORE_ID'] = 'Store ID';
+$MESS['CITRUS_DHFI_PAYSYSTEM_STORE_ID_DESC'] = 'You store\'s ID on pay.dhfi.online';
+$MESS['CITRUS_DHFI_PAYSYSTEM_API_KEY'] = 'API key';
+$MESS['CITRUS_DHFI_PAYSYSTEM_API_KEY_DESC'] = 'api key value for your store';
+$MESS['CITRUS_DHFI_PAYSYSTEM_ORDER_NUM'] = 'Order number';
+$MESS['CITRUS_DHFI_PAYSYSTEM_ORDER_SUM'] = 'Payed amount';
