@@ -2,14 +2,22 @@
 
 namespace Citrus\DHFi;
 
+use DHF\Pay\DHFPay;
 use Spatie\DataTransferObject\Arr;
 
 class Payment
 {
-	public static function get(int $id): DTO\Payment
+	private DHFPay $client;
+
+	public function __construct(DHFPay $client)
+	{
+		$this->client = $client;
+	}
+
+	public function get(int $id): DTO\Payment
 	{
 		return new DTO\Payment(
-			Config::getClient()->payments()->getOne($id)
+			$this->client->payments()->getOne($id)
 		);
 	}
 
@@ -18,7 +26,7 @@ class Payment
 		$paymentParam = Arr::only($payment->toArray(), ['amount', 'comment']);
 
 		return new DTO\CreatePaymentResponse(
-			Config::getClient()->payments()->add($paymentParam)
+			$this->client->payments()->add($paymentParam)
 		);
 	}
 
