@@ -28,34 +28,6 @@ $data = [
 			]
 		],
 
-		'PAYMENT_ID' => [
-			'NAME' => Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_PAYMENT_ID'),
-			'SORT' => 500,
-			'GROUP' => 'PAYMENT',
-			'DEFAULT' => [
-				'PROVIDER_KEY' => 'PAYMENT',
-				'PROVIDER_VALUE' => 'ID'
-			]
-		],
-		"PAYMENT_SHOULD_PAY" => [
-			"NAME" => Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_PAYMENT_SHOULD_PAY'),
-			'GROUP' => 'PAYMENT',
-			"DESCRIPTION" => "",
-			"SORT" => 600,
-			'DEFAULT' => [
-				"PROVIDER_KEY" => "PAYMENT",
-				"PROVIDER_VALUE" => "SUM",
-			],
-		],
-		'PAYMENT_CURRENCY' => [
-			'NAME' => Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_PAYMENT_CURRENCY'),
-			'SORT' => 650,
-			'GROUP' => 'PAYMENT',
-			'DEFAULT' => [
-				'PROVIDER_KEY' => 'PAYMENT',
-				'PROVIDER_VALUE' => 'CURRENCY'
-			]
-		],
 		'PAYMENT_DESCRIPTION' => [
 			'NAME' => Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_PAYMENT_DESCRIPTION'),
 			'DESCRIPTION' => Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_PAYMENT_DESCRIPTION_DESC'),

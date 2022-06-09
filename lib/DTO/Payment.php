@@ -16,7 +16,7 @@ class Payment extends FlexibleDataTransferObject
 	 * - payment confirmation hook receives amount as a string {@see \Citrus\DHFi\Integration\Invoice::confirmPaymentAction Invoice::confirmPaymentAction}.
 	 * - api responses also specify amount as a string. {@see \DHF\Pay\Payments::getOne()}
 	 *
-	 * @var float|string $amount Number of tokens needed to close the payment
+	 * @var float|string|int $amount Number of tokens needed to close the payment
 	 */
 	public $amount;
 	/** Payment status Not_paid when creating, Particularly_paid if not paid in full (maybe in theory), Paid - paid in full */
