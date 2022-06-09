@@ -1,7 +1,8 @@
 <?php
 
-if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
 	die();
+}
 
 use \Bitrix\Main\Localization\Loc;
 
@@ -37,15 +38,15 @@ $data = [
 			]
 		],
 		"PAYMENT_SHOULD_PAY" => [
-            "NAME" => Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_PAYMENT_SHOULD_PAY'),
-            'GROUP' => 'PAYMENT',
-            "DESCRIPTION" => "",
-            "SORT" => 600,
-            'DEFAULT' => [
-                "PROVIDER_KEY" => "PAYMENT",
-                "PROVIDER_VALUE" => "SUM",
-            ],
-        ],
+			"NAME" => Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_PAYMENT_SHOULD_PAY'),
+			'GROUP' => 'PAYMENT',
+			"DESCRIPTION" => "",
+			"SORT" => 600,
+			'DEFAULT' => [
+				"PROVIDER_KEY" => "PAYMENT",
+				"PROVIDER_VALUE" => "SUM",
+			],
+		],
 		'PAYMENT_CURRENCY' => [
 			'NAME' => Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_PAYMENT_CURRENCY'),
 			'SORT' => 650,
