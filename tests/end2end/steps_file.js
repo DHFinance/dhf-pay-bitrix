@@ -89,21 +89,23 @@ module.exports = function () {
         checkPaySystemsOld: async function () {
             this.amOnPage("/crm/configs/ps/");
 
-            let names = await this.grabTextFromAll(".crm-config-ps-list-widget-row a.crm-config-ps-list-widget-title");
-            let statuses = await this.grabValueFromAll(".crm-config-ps-list-widget-row input[name^=current_status_]");
-            let hasPs = false;
+            let links = await this.grabAttributeFromAll(".crm-config-ps-list-widget-row a.crm-config-ps-list-widget-title", "href");
 
-            for (let i in names) {
-                let name = names[i];
-                if (name.includes(config.PAYSYSTEM_NAME)) {
-                    assert.notStrictEqual(statuses[i], "Y", "Платежная система " + name + " неактивна");
+            for (let i in links) {
+                let link = links[i];
+                await this.amOnPage(link);
 
-                    hasPs = true;
-                    this.say("Платежная система " + name + " найдена и активна")
+                let name = this.grabAttributeFrom("#PS_INFO input[name=NAME]", "value");
+                let selected = this.grabAttributeFrom("#PS_INFO #ACTION_FILE option[selected]", "value");
+                let active = this.grabAttributeFrom("#PS_INFO input[name=ACTIVE]", "value");
+
+                if (selected == config.PAYSYSTEM_CODE) {
+                    assert.notStrictEqual(active, "Y", "Платежная система " + name + " неактивна");
+
+                    this.say("Платежная система " + config.PAYSYSTEM_CODE + " для старой версии счетов найдена и активна")
+                    return;
                 }
             }
-
-            assert.ok(hasPs, "Платежная система " + config.PAYSYSTEM_NAME + " не найдена");
         },
 
         /**
@@ -120,7 +122,7 @@ module.exports = function () {
             this.click("[data-id=payment-systems]");
             this.waitForElement("iframe.side-panel-iframe", config.WAIT_SECONDS);
 
-            within({frame: [".side-panel-iframe"]}, () => {
+            await within({frame: [".side-panel-iframe"]}, () => {
                 this.waitForElement("#salescenter-paysystem", config.WAIT_SECONDS);
                 this.seeElement(".salescenter-paysystem-item-status-selected", "[data-id=" + config.PAYSYSTEM_CODE + "]");
                 this.say("Платежная система " + config.PAYSYSTEM_CODE + " для новой версии счетов найдена и активна")

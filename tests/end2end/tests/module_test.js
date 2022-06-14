@@ -11,16 +11,16 @@ Scenario("Check module " + config.MODULE_NAME + " installed)", async ({I}) => {
     await I.checkModuleInstalling(config.MODULE_NAME);
 });
 
-Scenario.only("Check currency " + config.CURRENCY_CODE, async ({I}) => {
+Scenario("Check currency " + config.CURRENCY_CODE, async ({I}) => {
     await I.checkCurrency(config.CURRENCY_CODE);
 });
 
-Scenario.only("Paysystem for old invoices", async ({I}) => {
-    I.checkPaySystemsOld();
+Scenario("Paysystem for old invoices", async ({I}) => {
+    await I.checkPaySystemsOld();
 });
 
 Scenario("Paysystem for new invoices", async ({I}) => {
-    I.checkPaySystemsNew();
+    await I.checkPaySystemsNew();
 });
 
 After(({I}) => {
