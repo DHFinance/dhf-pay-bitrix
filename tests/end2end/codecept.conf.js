@@ -7,12 +7,14 @@ setHeadlessWhen(process.env.HEADLESS);
 // enable all common plugins https://github.com/codeceptjs/configure#setcommonplugins
 setCommonPlugins();
 
+require('dotenv').config({ path: '.env' });
+
 exports.config = {
-  tests: './*_test.js',
+  tests: './tests/*_test.js',
   output: './output',
   helpers: {
     Puppeteer: {
-      url: 'https://dhfi.s2.citruspro.ru/',
+      url: process.env.url || "https://dhfi.s2.citruspro.ru",
       show: true,
       windowSize: '1200x900'
     }
