@@ -15,7 +15,7 @@
 		"@codeceptjs/examples": "^1.2.1",
 		"@codeceptjs/ui": "^0.4.6",
 		"codeceptjs": "^3.3.3",
-		"playwright": "^1.22.2",
+		"dotenv": "^16.0.1",
 		"puppeteer": "^14.3.0"
 	}
 }
