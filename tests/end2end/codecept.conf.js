@@ -20,7 +20,10 @@ exports.config = {
     }
   },
   include: {
-    I: './steps_file.js'
+    I: './steps_file.js',
+    login: "./lib/login.js",
+    modules: "./lib/modules.js",
+    paysystems: "./lib/paysystems.js",
   },
   bootstrap: null,
   mocha: {},

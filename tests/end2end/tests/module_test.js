@@ -3,26 +3,37 @@ const {config} = require("../lib/config");
 
 Feature("Module install and settings");
 
-Before(async ({I}) => { // or Background
-    await I.login(process.env.login, process.env.password);
+Before(async ({I, login}) => {
+    await login.login(process.env.login, process.env.password);
 });
 
-Scenario("Check module " + config.MODULE_NAME + " installed)", async ({I}) => {
-    await I.checkModuleInstalling(config.MODULE_NAME);
+Scenario("Check module " + config.MODULE_NAME + " installed)", async ({I, module}) => {
+    await module.installed(config.MODULE_NAME);
 });
 
-Scenario("Check currency " + config.CURRENCY_CODE, async ({I}) => {
-    await I.checkCurrency(config.CURRENCY_CODE);
+Scenario("Check currency " + config.CURRENCY_CODE, async ({I, paysystems}) => {
+    await paysystems.currencyExists(config.CURRENCY_CODE);
 });
 
-Scenario("Paysystem for old invoices", async ({I}) => {
-    await I.checkPaySystemsOld();
+/**
+ * Проверяется настройка и активность платежной системы для старой версии счетов:
+ * - переходим в подраздел “CRM” -> “Настройки” -> “Способы оплаты”;
+ * - в блоке “Платежная система” отображается платежная система DHFinance и статус системы равен “Y”;
+ */
+Scenario("Paysystem for old invoices", async ({I, paysystems}) => {
+    await paysystems.paysystemInCrm(config.PAYSYSTEM_CODE);
 });
 
-Scenario("Paysystem for new invoices", async ({I}) => {
-    await I.checkPaySystemsNew();
+/**
+ * Проверяется настройка и активность платежной системы для новой версии счетов:
+ * - открываем раздел “Центр продаж”;
+ * - открываем пункт “Платежные системы”;
+ * - во всплывающем окне в блоке у платежной системы DHFinance проставлена галочка, которая обозначает успешное подключение и активность платежной системы
+ */
+Scenario("Paysystem for new invoices", async ({I, paysystems}) => {
+    await paysystems.paysystemInSalehub(config.PAYSYSTEM_CODE, config.WAIT_SECONDS);
 });
 
-After(({I}) => {
-    I.logout();
+After(({I, login}) => {
+    login.logout();
 });
