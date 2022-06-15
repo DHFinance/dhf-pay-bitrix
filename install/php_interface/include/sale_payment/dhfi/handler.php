@@ -19,6 +19,8 @@ use DHF\Pay\DHFPay;
 use DHF\Pay\Exception\DHFBadRequestException;
 use DHF\Pay\Exception\DHFUnauthorisedException;
 
+use const Citrus\DHFi\CSPR_CURRENCY_CODE;
+
 Loc::loadMessages(__FILE__);
 
 class DhfiHandler extends PaySystem\ServiceHandler
@@ -73,10 +75,10 @@ class DhfiHandler extends PaySystem\ServiceHandler
 	 */
 	public function getCurrencyList()
 	{
-		return ['CSPR'];
+		return [CSPR_CURRENCY_CODE];
 	}
 
-	private function getPaymentDescription(Payment $payment)
+	private function getPaymentDescription(Payment $payment): string
 	{
 		/** @var PaymentCollection $collection */
 		$collection = $payment->getCollection();
@@ -206,6 +208,16 @@ class DhfiHandler extends PaySystem\ServiceHandler
 		return $result;
 	}
 
+	/**
+	 * @param Payment $payment
+	 * @param Request $request
+	 * @return PaySystem\ServiceResult
+	 * @throws \Bitrix\Main\ArgumentException
+	 * @throws \Bitrix\Main\ArgumentNullException
+	 * @throws \Bitrix\Main\ArgumentOutOfRangeException
+	 * @throws \Bitrix\Main\ArgumentTypeException
+	 * @throws \Bitrix\Main\ObjectException
+	 */
 	public function processRequest(Payment $payment, Request $request)
 	{
 		$result = new PaySystem\ServiceResult();
@@ -258,6 +270,11 @@ class DhfiHandler extends PaySystem\ServiceHandler
 		return $result;
 	}
 
+	/**
+	 * @param Request $request
+	 * @return string|int|null
+	 * @throws \Bitrix\Main\ArgumentException
+	 */
 	public function getPaymentIdFromRequest(Request $request)
 	{
 		$jsonPayload = (new JsonPayload())->getData();
@@ -278,9 +295,14 @@ class DhfiHandler extends PaySystem\ServiceHandler
 			'filter' => array_merge([
 				'ID' => $payment->id,
 			], $additionalFilter),
-		]) ?: null;
+		]);
 	}
 
+	/**
+	 * @param Request $request
+	 * @param int $paySystemId
+	 * @return bool
+	 */
 	public static function isMyResponse(Request $request, $paySystemId)
 	{
 		try {
@@ -297,6 +319,11 @@ class DhfiHandler extends PaySystem\ServiceHandler
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * @return string|null
+	 * @throws \Bitrix\Main\ArgumentException
+	 */
 	public static function jsonEncode(array $data)
 	{
 		return Json::encode($data, JSON_UNESCAPED_UNICODE);
