@@ -28,7 +28,7 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 
 	public function __construct($type, Service $service)
 	{
-		$this->logger = LoggerFactory::create(static::class);
+		$this->logger = LoggerFactory::create('handler');
 
 		parent::__construct($type, $service);
 	}
@@ -160,7 +160,7 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 
 		$result->setPsData(['PS_INVOICE_ID' => $dto->id]);
 		$result->setData([
-			'URL' => $result->getPaymentUrl(),
+			'URL' => $this->makePaymentUrl($payment, $dto),
 			'PAYMENT' => $dto->toArray(),
 		]);
 
