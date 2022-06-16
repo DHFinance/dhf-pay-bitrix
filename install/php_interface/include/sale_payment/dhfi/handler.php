@@ -44,7 +44,7 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 		if (!isset($params['URL'], $params['PAYMENT'])) {
 			$createPaymentResult = $this->createDhfiPayment($payment);
 			if ($createPaymentResult->isSuccess()) {
-				$this->setPsData($createPaymentResult->getPsData());
+				$result->setPsData($createPaymentResult->getPsData());
 				$params = $createPaymentResult->getData();
 			} else {
 				$params['ERROR_DETAILS'] = implode(', ', $createPaymentResult->getErrorMessages());
