@@ -7,8 +7,8 @@ Before(async ({I, login}) => {
     await login.login(process.env.login, process.env.password);
 });
 
-Scenario("Check module " + config.MODULE_NAME + " installed)", async ({I, module}) => {
-    await module.installed(config.MODULE_NAME);
+Scenario("Check module " + config.MODULE_NAME + " installed)", async ({I, modules}) => {
+    await modules.installed(config.MODULE_NAME);
 });
 
 Scenario("Check currency " + config.CURRENCY_CODE, async ({I, paysystems}) => {
