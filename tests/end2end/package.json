@@ -14,6 +14,7 @@
 		"@codeceptjs/configure": "^0.8.0",
 		"@codeceptjs/examples": "^1.2.1",
 		"@codeceptjs/ui": "^0.4.6",
+        "codeceptjs-chai": "^2.3.3",
 		"codeceptjs": "^3.3.3",
 		"dotenv": "^16.0.1",
 		"puppeteer": "^14.3.0"

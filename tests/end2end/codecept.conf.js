@@ -10,13 +10,19 @@ setCommonPlugins();
 require('dotenv').config({ path: '.env' });
 
 exports.config = {
-  tests: './tests/*_test.js',
+  tests: './tests/*.js',
   output: './output',
   helpers: {
+    Rest: {
+      require: './helpers/rest_helper.js',
+    },
     Puppeteer: {
       url: process.env.url || "https://dhfi.s2.citruspro.ru",
       show: true,
       windowSize: '1200x900'
+    },
+    ChaiWrapper : {
+      require: "codeceptjs-chai"
     }
   },
   include: {
@@ -24,8 +30,15 @@ exports.config = {
     login: "./lib/login.js",
     modules: "./lib/modules.js",
     paysystems: "./lib/paysystems.js",
+
+    invoiceStep: './steps/invoice.js',
+    smartInvoiceStep: './steps/smartInvoice.js',
+
+    smartInvoicePublicPage: './pages/smartInvoicePublicPage.js',
+    dhfiPaymentPage: './pages/dhfiPaymentPage.js',
   },
   bootstrap: null,
   mocha: {},
   name: 'end2end'
 }
+
