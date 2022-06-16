@@ -16,6 +16,7 @@ use Citrus\DHFi\Payment as PaymentAPI;
 use Citrus\DHFi\Entity\PaymentTable;
 use Citrus\DHFi\Util\DHFPayWithLogs;
 use Citrus\DHFi\Util\LoggerFactory;
+use Citrus\DHFi\PaymentException;
 
 use const Citrus\DHFi\CSPR_CURRENCY_CODE;
 
@@ -140,6 +141,10 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 			]);
 			$result->addError(Sale\PaySystem\Error::createForBuyer(Main\Localization\Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_ERROR_HAPPENED'),
 				$e->getCode()));
+			return $result;
+		}
+		catch (PaymentException $e) {
+			$result->addError(Sale\PaySystem\Error::createForBuyer($e->getMessage()));
 			return $result;
 		}
 

@@ -2,8 +2,11 @@
 
 namespace Citrus\DHFi;
 
-use DHF\Pay\DHFPay;
+use Bitrix\Main\Localization\Loc;
 use Spatie\DataTransferObject\Arr;
+use DHF\Pay\DHFPay;
+
+Loc::loadMessages(__FILE__);
 
 class Payment
 {
@@ -23,6 +26,10 @@ class Payment
 
 	public function create(DTO\Payment $payment): DTO\CreatePaymentResponse
 	{
+		if ($payment->amount < 2.5) {
+			throw new PaymentException(Loc::getMessage('CITRUS_DHFI_PAYMENT_ERROR_INSUFFICIENT_AMOUNT'));
+		}
+
 		$paymentParam = Arr::only($payment->toArray(), ['amount', 'comment']);
 
 		return new DTO\CreatePaymentResponse(
