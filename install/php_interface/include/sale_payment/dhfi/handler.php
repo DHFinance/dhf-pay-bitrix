@@ -4,6 +4,7 @@ namespace Sale\Handlers\PaySystem;
 
 use Bitrix\Main;
 use Bitrix\Sale;
+use Bitrix\Sale\PaySystem\Service;
 use Bitrix\Sale\PaySystem\ServiceResult;
 
 use DHF\Pay\DHFPay;
@@ -14,6 +15,7 @@ use Citrus\DHFi\DTO\Payment as PaymentDTO;
 use Citrus\DHFi\Payment as PaymentAPI;
 use Citrus\DHFi\Entity\PaymentTable;
 use Citrus\DHFi\Util\DHFPayWithLogs;
+use Citrus\DHFi\Util\LoggerFactory;
 
 use const Citrus\DHFi\CSPR_CURRENCY_CODE;
 
@@ -21,6 +23,16 @@ Main\Localization\Loc::loadMessages(__FILE__);
 
 class DhfiHandler extends Sale\PaySystem\ServiceHandler
 {
+	/** @var \Psr\Log\LoggerInterface */
+	protected $logger;
+
+	public function __construct($type, Service $service)
+	{
+		$this->logger = LoggerFactory::create(static::class);
+
+		parent::__construct($type, $service);
+	}
+
 	/**
 	 * @param Sale\Payment $payment
 	 * @param Main\Request|null $request
@@ -33,6 +45,7 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 		$params = [];
 		if ($payment->getField('PS_INVOICE_ID')) {
 			$checkPaymentResult = $this->checkCreatedPayment($payment);
+			$this->logger->debug(__FUNCTION__ . ' existing payment', $checkPaymentResult->getData());
 			if ($checkPaymentResult->isSuccess()) {
 				$params = $checkPaymentResult->getData();
 			} else {
@@ -43,6 +56,7 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 
 		if (!isset($params['URL'], $params['PAYMENT'])) {
 			$createPaymentResult = $this->createDhfiPayment($payment);
+			$this->logger->debug(__FUNCTION__ . ' created payment', $createPaymentResult->getData());
 			if ($createPaymentResult->isSuccess()) {
 				$result->setPsData($createPaymentResult->getPsData());
 				$params = $createPaymentResult->getData();
@@ -53,6 +67,9 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 
 		$this->setExtraParams($params);
 		if (isset($params['URL'])) {
+			$this->logger->debug(__FUNCTION__ . ' settings payment url', [
+				'url' => $params['URL'],
+			]);
 			$result->setPaymentUrl($params['URL']);
 		}
 
@@ -117,10 +134,10 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 				$this->getApiClient($payment)
 			))->create($dto);
 		} catch (DHFBadRequestException|DHFUnauthorisedException $e) {
-			Sale\PaySystem\Logger::addError(__METHOD__ . ': failed to create payment. ' . self::jsonEncode([
-					'message' => $e->getMessage(),
-					'code' => $e->getCode(),
-				]));
+			$this->logger->error(__FUNCTION__ . ': failed to create payment', [
+				'message' => $e->getMessage(),
+				'code' => $e->getCode(),
+			]);
 			$result->addError(Sale\PaySystem\Error::createForBuyer(Main\Localization\Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_ERROR_HAPPENED'),
 				$e->getCode()));
 			return $result;
@@ -136,8 +153,9 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 			'AMOUNT' => $dto->amount,
 		]);
 		if (!$paymentAddResult->isSuccess()) {
-			Sale\PaySystem\Logger::addError(__METHOD__ . ': failed to save created to db. ' . implode(', ',
-					$paymentAddResult->getErrorMessages()));
+			$this->logger->error(__FUNCTION__ . ': failed to save created to db', [
+				'messages' => $paymentAddResult->getErrorMessages(),
+			]);
 		}
 
 		$result->setPsData(['PS_INVOICE_ID' => $dto->id]);
@@ -183,17 +201,23 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 			$paymentApi = new PaymentAPI($this->getApiClient($payment));
 			$existingPayment = $paymentApi->get($payment->getField('PS_INVOICE_ID'));
 		} catch (\Exception $e) {
-			Sale\PaySystem\Logger::addError(__METHOD__ . ': failed to check existing payment. ' . $e->getMessage());
+			$this->logger->error(__FUNCTION__ . ': failed to check existing payment. ', [
+				'message' => $e->getMessage(),
+			]);
 			return $result;
 		}
 
 		if (!$this->isSumCorrect($payment, $existingPayment)) {
-			Sale\PaySystem\Logger::addError(__METHOD__ . ': existing payment sum mismatch. Should create new one. ' . self::jsonEncode($existingPayment->toArray()));
+			$this->logger->error(__FUNCTION__ . ': existing payment sum mismatch. Should create new one', [
+				'payment' => $existingPayment->toArray(),
+			]);
 			return $result;
 		}
 
 		if ($existingPayment->status !== 'Not_paid') {
-			Sale\PaySystem\Logger::addDebugInfo(__METHOD__ . ': existing payment have already been payed. Should create new one. ' . self::jsonEncode($existingPayment->toArray()));
+			$this->logger->debug(__FUNCTION__ . ': existing payment have already been payed. Should create new one. ', [
+				'payment' => $existingPayment->toArray(),
+			]);
 			return $result;
 		}
 
@@ -220,16 +244,16 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 		$payload = (new Main\Engine\JsonPayload())->getData();
 		$dto = new PaymentDTO($payload);
 
-		Sale\PaySystem\Logger::addDebugInfo(__METHOD__ . ': request: ' . self::jsonEncode($payload));
+		$this->logger->debug(__FUNCTION__, compact('payload'));
 
 		if ($dto->store->apiKey !== $this->getBusinessValue($payment, 'DHFI_API_KEY')) {
-			$result->addError(new Main\Error(
-				Main\Localization\Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_INCORRECT_API_KEY', [
-					'#GOT#' => $dto->store->apiKey,
-					'#EXPECTED#' => $this->getBusinessValue($payment, 'DHFI_API_KEY'),
-					'#REQUEST#' => self::jsonEncode($payload),
-				])
-			));
+			$message = Main\Localization\Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_INCORRECT_API_KEY', [
+				'#GOT#' => $dto->store->apiKey,
+				'#EXPECTED#' => $this->getBusinessValue($payment, 'DHFI_API_KEY'),
+				'#REQUEST#' => self::jsonEncode($payload),
+			]);
+			$result->addError(new Main\Error($message));
+			$this->logger->error(__FUNCTION__ . ': ' . $message);
 			return $result;
 		}
 
@@ -253,6 +277,9 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 					'#GOT#' => $dto->amount,
 					'#EXPECTED#' => $payment->getSum(),
 				]);
+				$this->logger->error(__FUNCTION__ . ': ' . $error, [
+					'dto' => $dto->toArray(),
+				]);
 				$result->addError(new Sale\PaySystem\Error($error));
 				$fields['PS_STATUS_DESCRIPTION'] .= '. ' . $error;
 				return $result;
@@ -261,6 +288,9 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 		} else {
 			$error = Main\Localization\Loc::getMessage('CITRUS_DHFI_PAYSYSTEM_INCORRECT_STATUS_RECEIVED', [
 				'#STATUS#' => $dto->status,
+			]);
+			$this->logger->error(__FUNCTION__ . ': ' . $error, [
+				'dto' => $dto->toArray(),
 			]);
 			$result->addError(new Sale\PaySystem\Error($error));
 		}
