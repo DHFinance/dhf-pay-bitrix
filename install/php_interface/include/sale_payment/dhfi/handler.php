@@ -18,6 +18,8 @@ use Citrus\DHFi\Util\DHFPayWithLogs;
 use Citrus\DHFi\Util\LoggerFactory;
 use Citrus\DHFi\PaymentException;
 
+use mysql_xdevapi\DocResult;
+
 use const Citrus\DHFi\CSPR_CURRENCY_CODE;
 
 Main\Localization\Loc::loadMessages(__FILE__);
@@ -182,13 +184,29 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 	}
 
 	/**
+	 * Возвращает сумму счета. Если валюта счета отличается от CSPR,
+	 * производит конвертацию по текущему курсу с помощью модуля «Валюты»
+	 *
+	 * @param Sale\Payment $payment
+	 * @return float
+	 */
+	protected function getPaymentAmountInCSPR(Sale\Payment $payment): float
+	{
+		$currency = $payment->getField('CURRENCY');
+		if ($currency === CSPR_CURRENCY_CODE) {
+			return $payment->getSum();
+		}
+		return \CCrmCurrency::ConvertMoney($payment->getSum(), $currency, CSPR_CURRENCY_CODE);
+	}
+
+	/**
 	 * @param Sale\Payment $payment
 	 * @return PaymentDTO
 	 */
 	protected function makePaymentDto(Sale\Payment $payment): PaymentDTO
 	{
 		return new PaymentDTO([
-			'amount' => Sale\PriceMaths::roundPrecision($payment->getSum()),
+			'amount' => Sale\PriceMaths::roundPrecision($this->getPaymentAmountInCSPR($payment)),
 			'comment' => $this->getPaymentDescription($payment),
 		]);
 	}
