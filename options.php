@@ -2,12 +2,10 @@
 
 namespace Citrus\DHFi;
 
-use Bitrix\Main\Config\ConfigurationException;
 use Bitrix\Main\Loader;
 use Bitrix\Main\Localization\Loc;
 use Citrus\Core\ModuleOptions as Options;
 use Citrus\DHFi\Util\LoggerFactory;
-use GuzzleHttp\Exception\ServerException;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 	die();

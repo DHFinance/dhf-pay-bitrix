@@ -2,7 +2,6 @@
 
 use Bitrix\Main;
 use Bitrix\Main\Localization\Loc;
-use Citrus\DHFi\Util\ModuleLocation;
 
 Loc::loadMessages(__FILE__);
 IncludeModuleLangFile(__FILE__); // for Marketplace compatibility
@@ -220,27 +219,11 @@ class citrus_dhfi extends CModule
 	protected function installEventHandlers()
 	{
 		$eventManager = Main\EventManager::getInstance();
-		$eventManager->registerEventHandler('crm', 'onCrmInvoiceListItemBuildMenu', $this->MODULE_ID,
-			\Citrus\DHFi\Integration\EventHandlers::class, 'onCrmInvoiceListItemBuildMenu');
-		$eventManager->registerEventHandler('crm', 'onCrmDynamicItemAdd', $this->MODULE_ID,
-			\Citrus\DHFi\Integration\EventHandlers::class, 'onCrmDynamicItemAdd');
-		$eventManager->registerEventHandler('intranet', 'onBuildBindingMenu', $this->MODULE_ID,
-			\Citrus\DHFi\Integration\EventHandlers::class, 'onBuildBindingMenu');
-		$eventManager->registerEventHandler('intranet', 'onBuildBindingMenu', $this->MODULE_ID,
-			\Citrus\DHFi\Integration\EventHandlers::class, 'onBuildBindingMenu');
 	}
 
 	protected function uninstallEventHandlers()
 	{
 		$eventManager = Main\EventManager::getInstance();
-		$eventManager->unRegisterEventHandler('crm', 'onCrmInvoiceListItemBuildMenu', $this->MODULE_ID,
-			\Citrus\DHFi\Integration\EventHandlers::class, 'onCrmInvoiceListItemBuildMenu');
-		$eventManager->unRegisterEventHandler('crm', 'onCrmDynamicItemAdd', $this->MODULE_ID,
-			\Citrus\DHFi\Integration\EventHandlers::class, 'onCrmDynamicItemAdd');
-		$eventManager->unRegisterEventHandler('intranet', 'onBuildBindingMenu', $this->MODULE_ID,
-			\Citrus\DHFi\Integration\EventHandlers::class, 'onBuildBindingMenu');
-		$eventManager->registerEventHandler('intranet', 'onBuildBindingMenu', $this->MODULE_ID,
-			\Citrus\DHFi\Integration\EventHandlers::class, 'onBuildBindingMenu');
 	}
 
 	/**
@@ -252,23 +235,6 @@ class citrus_dhfi extends CModule
 	{
 		CopyDirFiles(__DIR__ . "/php_interface", $_SERVER["DOCUMENT_ROOT"] . BX_ROOT . "/php_interface", true, true);
 		CopyDirFiles(__DIR__ . "/images", $_SERVER["DOCUMENT_ROOT"] . BX_ROOT . "/images", true, true);
-		CopyDirFiles(__DIR__ . "/public", $_SERVER["DOCUMENT_ROOT"] . "/", true, true);
-		CopyDirFiles(__DIR__ . "/js", $_SERVER["DOCUMENT_ROOT"] . ModuleLocation::getBxRoot() . "/js", true, true);
-
-		Main\UrlRewriter::add('s1', [
-			'CONDITION' => '#^/pub/dhfi-handler/#',
-			'RULE' => '',
-			'ID' => 'citrus.dhfi.payment',
-			'PATH' => '/pub/payment_dhfi_handler.php',
-			'SORT' => 110,
-		]);
-		Main\UrlRewriter::add('s1', [
-			'CONDITION' => '#^/pub/dhfi-pay/([^/]+)#',
-			'RULE' => 'payment=$1',
-			'ID' => 'citrus.dhfi.payment',
-			'PATH' => '/pub/payment_dhfi.php',
-			'SORT' => 100,
-		]);
 
 		return true;
 	}
@@ -282,12 +248,6 @@ class citrus_dhfi extends CModule
 	{
 		$this->removeInstalled(__DIR__ . "/php_interface", $_SERVER["DOCUMENT_ROOT"] . BX_ROOT . "/php_interface");
 		$this->removeInstalled(__DIR__ . "/images", $_SERVER["DOCUMENT_ROOT"] . BX_ROOT . "/images");
-		$this->removeInstalled(__DIR__ . "/public", $_SERVER["DOCUMENT_ROOT"] . "/");
-		$this->removeInstalled(__DIR__ . "/js", $_SERVER["DOCUMENT_ROOT"] . ModuleLocation::getBxRoot() . "/js");
-
-		Main\UrlRewriter::delete('s1', [
-			'ID' => 'citrus.dhfi.payment',
-		]);
 
 		return true;
 	}

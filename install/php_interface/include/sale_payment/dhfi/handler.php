@@ -18,8 +18,6 @@ use Citrus\DHFi\Util\DHFPayWithLogs;
 use Citrus\DHFi\Util\LoggerFactory;
 use Citrus\DHFi\PaymentException;
 
-use mysql_xdevapi\DocResult;
-
 use const Citrus\DHFi\CSPR_CURRENCY_CODE;
 
 Main\Localization\Loc::loadMessages(__FILE__);

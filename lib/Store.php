@@ -2,12 +2,21 @@
 
 namespace Citrus\DHFi;
 
+use DHF\Pay\DHFPay;
+
 class Store
 {
-	public static function get(int $id): DTO\Store
+	private DHFPay $client;
+
+	public function __construct(DHFPay $client)
+	{
+		$this->client = $client;
+	}
+
+	public function get(int $id): DTO\Store
 	{
 		return new DTO\Store(
-			Config::getClient()->request('GET', sprintf('store/%d', $id), [])
+			$this->client->request('GET', sprintf('store/%d', $id), [])
 		);
 	}
 }

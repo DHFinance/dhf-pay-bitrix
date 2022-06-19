@@ -2,7 +2,9 @@
 
 namespace Citrus\DHFi;
 
-class PaymentException extends \RuntimeException
+use RuntimeException;
+
+class PaymentException extends RuntimeException
 {
 
 }
