@@ -3,6 +3,8 @@
 use Bitrix\Main;
 use Bitrix\Main\Localization\Loc;
 
+use Citrus\DHFi\Util\CurrencyInstaller;
+
 Loc::loadMessages(__FILE__);
 IncludeModuleLangFile(__FILE__); // for Marketplace compatibility
 
@@ -345,37 +347,7 @@ class citrus_dhfi extends CModule
 
 	protected function installCurrency(): void
 	{
-		Main\Loader::requireModule('crm');
-		if (CCrmCurrency::GetByID(\Citrus\DHFi\CSPR_CURRENCY_CODE)) {
-			return;
-		}
-		$success = CCrmCurrency::Add([
-			'CURRENCY' => \Citrus\DHFi\CSPR_CURRENCY_CODE,
-			'AMOUNT_CNT' => 1000,
-			'AMOUNT' => 1872.65918,
-			'LANG' => [
-				'ru' => [
-					'LID' => 'ru',
-					'FULL_NAME' => 'Casper (CSPR)',
-					'FORMAT_STRING' => '# CSPR',
-					'DEC_POINT' => ',',
-					'THOUSANDS_SEP' => 'S',
-					'DECIMALS' => 2,
-					'HIDE_ZERO' => 'Y',
-				],
-				'en' => [
-					'LID' => 'en',
-					'FULL_NAME' => 'Casper (CSPR)',
-					'FORMAT_STRING' => '# CSPR',
-					'DEC_POINT' => ',',
-					'THOUSANDS_SEP' => 'D',
-					'DECIMALS' => 2,
-					'HIDE_ZERO' => 'Y',
-				],
-			],
-		]);
-		if (!$success) {
-			throw new RuntimeException(CCrmCurrency::GetLastError());
-		}
+		Main\Loader::registerNamespace('\Citrus\DHFi', dirname(__DIR__) . '/lib');
+		CurrencyInstaller::installOrUpdate();
 	}
 }
