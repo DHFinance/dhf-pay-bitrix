@@ -75,6 +75,7 @@ module.exports = {
         await I.callRest('crm.item.productrow.set', {
             ownerType: entity.SYMBOL_CODE_SHORT,
             ownerId: invoice.id,
+            currencyId: 'CSPR',
             productRows: [
                 {
                     productId: product.ID,
