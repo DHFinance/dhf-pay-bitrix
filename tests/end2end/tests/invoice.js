@@ -1,7 +1,17 @@
 Feature('Оплата старых счетов');
 
+let prevBaseCurrency;
+
 Before(async ({I, loginAs}) => {
     await loginAs('admin');
+
+    prevBaseCurrency = await I.setInvoiceCurrency('CSP');
+});
+
+After(async ({I, loginAs}) => {
+    await loginAs('admin');
+
+    prevBaseCurrency = await I.setInvoiceCurrency(prevBaseCurrency);
 });
 
 Scenario('Оплата старого счета', async ({I, invoiceStep}) => {

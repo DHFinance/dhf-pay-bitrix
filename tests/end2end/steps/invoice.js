@@ -51,7 +51,7 @@ module.exports = {
                 ORDER_TOPIC: `Тестовый счет от ${(new Date()).toLocaleString()}`,
                 STATUS_ID: "N",
                 PRODUCT_ROWS: [
-                    {"ID": 0, "PRODUCT_ID": product.ID, "PRODUCT_NAME": product.NAME, "QUANTITY": 1, "PRICE": amount},
+                    {"ID": 0, "PRODUCT_ID": product.ID, "PRODUCT_NAME": "Тестовый товар", "QUANTITY": 1, "PRICE": amount},
                 ],
             }
         });
@@ -71,7 +71,9 @@ module.exports = {
     async tryToPay(url, amount = 5, expectedError = undefined) {
         I.amOnPage(url);
         I.seeElement(locate('.crm-invoice-payment-system').as('Оплатить через'));
-        I.see(`${amount}`, '.crm-invoice-payment-total-sum');
+
+        const formattedAmount = amount.toFixed(2).replace('.', ',').replace(',00', '');
+        I.see(`${formattedAmount} CSPR`, '.crm-invoice-payment-total-sum');
 
         const dhfiMethodBlock = locate('.crm-invoice-payment-system-image-block')
             .withText('DHFinance')

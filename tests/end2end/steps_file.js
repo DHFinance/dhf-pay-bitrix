@@ -37,7 +37,7 @@ module.exports = function () {
         async isLoggedIn(login) {
             this.amOnPage("/bitrix/admin/index.php");
             this.seeElement('#bx-panel-logout');
-            const {value} = await this.grabCookie('BITRIX_SM_LOGIN');
+            const value = await this.grabCookie('BITRIX_SM_LOGIN');
             return login === value;
         },
 
@@ -48,6 +48,21 @@ module.exports = function () {
         async grabLanguage() {
             // noinspection JSAnnotator
             return this.executeScript(() => BX.message('LANGUAGE_ID'));
-        }
+        },
+
+        /**
+         * Устанавливает валюту старых счетов
+         *
+         * @param {string} id
+         * @returns {Promise<{prev: string}>}
+         */
+        async setInvoiceCurrency(id) {
+            // noinspection JSValidateTypes
+            return this.executeAsyncScript((currency, done) => {
+                // noinspection JSVoidFunctionReturnValueUsed
+                BX.ajax.runAction('citrus:dhfi.util.Crm.setInvoiceCurrency', {data: {id: currency}})
+                    .then(response => done(response.data.prev));
+            }, id);
+        },
     });
 }
