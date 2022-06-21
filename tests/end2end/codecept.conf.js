@@ -12,6 +12,7 @@ require('dotenv').config({ path: '.env' });
 exports.config = {
   tests: './tests/*.js',
   output: './output',
+  //translation: "ru-RU",
   helpers: {
     Rest: {
       require: './helpers/rest_helper.js',

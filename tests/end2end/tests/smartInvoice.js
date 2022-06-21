@@ -26,7 +26,13 @@ Scenario('Наличие ошибки для сумм < 2.5 CSPR', async ({I, sm
     const publicUrl = await smartInvoiceStep.getPublicUrl(invoice)
 
     I.logout();
-    await smartInvoicePublicPage.tryToPay(publicUrl, amount, 'Минимальная сумма для оплаты: 2.5 CSPR');
+    await smartInvoicePublicPage.tryToPay(
+        publicUrl,
+        amount,
+        await I.grabLanguage() === 'ru'
+            ? 'Минимальная сумма для оплаты: 2.5 CSPR'
+            : 'Minimum amount for payment: 2.5 CSPR'
+    );
 
 });
 

@@ -21,12 +21,11 @@ module.exports = function () {
         },
 
         async login(login, password) {
-            this.say("Авторизация")
             this.amOnPage("/bitrix/admin/index.php#authorize");
             await within(".bx-admin-auth-form", () => {
                 this.fillField('USER_LOGIN', login);
                 this.fillField('USER_PASSWORD', password);
-                this.click('Запомнить меня на этом компьютере');
+                this.click('#USER_REMEMBER');
                 this.click('Login');
             });
         },
@@ -38,13 +37,17 @@ module.exports = function () {
         async isLoggedIn(login) {
             this.amOnPage("/bitrix/admin/index.php");
             this.seeElement('#bx-panel-logout');
-            const bitrixLogin = await this.grabCookie('BITRIX_SM_LOGIN');
-            return login === bitrixLogin;
+            const {value} = await this.grabCookie('BITRIX_SM_LOGIN');
+            return login === value;
         },
 
         logout() {
-            this.say("Выход")
-            this.amOnPage("/bitrix/admin/index.php?logout=yes&lang=ru");
+            this.amOnPage("/bitrix/admin/index.php?logout=yes");
         },
+
+        async grabLanguage() {
+            // noinspection JSAnnotator
+            return this.executeScript(() => BX.message('LANGUAGE_ID'));
+        }
     });
 }

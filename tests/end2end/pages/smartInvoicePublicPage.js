@@ -10,17 +10,16 @@ module.exports = {
         I.amOnPage(url);
 
         I.say("Проверяем страницу счета")
-        I.see('Выберите способ оплаты');
+        I.seeElement(locate('.order-payment-method-container').as('Выберите способ оплаты'));
         const dhfiPaymentBlock = locate(this.container)
-            .withText(this.paymentMethodTitle) // @todo Способ оплаты должен быть назван так: добавить в README!
+            .withText(this.paymentMethodTitle)
             .as('Способ оплаты: ' + this.paymentMethodTitle)
         ;
         I.seeElement(dhfiPaymentBlock);
 
         I.say("Проверяем страницу оплаты")
 
-        const payButton = locate('.btn')
-            .withText('Оплатить')
+        const payButton = locate('.btn.btn-primary')
             .inside(dhfiPaymentBlock)
             .as('Кнопка «Оплатить»');
         I.click(payButton);

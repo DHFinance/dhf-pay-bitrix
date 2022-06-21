@@ -20,9 +20,14 @@ module.exports = {
 
         I.amOnPage(invoice.url);
 
-        I.click('Действия')
-        I.click('Ссылка на счет', '.menu-popup-items');
+        /**
+         * Меню Действия → Ссылка на счет
+         */
+        I.click('#crm_invoice_toolbar_leftMenu', '.bx-crm-view-menu');
+        // noinspection JSUnresolvedFunction
+        I.executeScript(() => generateExternalLink(BX("crm_invoice_toolbar_leftMenu")));
 
+        I.waitForElement('#generated-link');
         return I.grabValueFrom('#generated-link');
     },
 
@@ -65,7 +70,7 @@ module.exports = {
      */
     async tryToPay(url, amount = 5, expectedError = undefined) {
         I.amOnPage(url);
-        I.see("Оплатить через");
+        I.seeElement(locate('.crm-invoice-payment-system').as('Оплатить через'));
         I.see(`${amount}`, '.crm-invoice-payment-total-sum');
 
         const dhfiMethodBlock = locate('.crm-invoice-payment-system-image-block')
@@ -84,8 +89,7 @@ module.exports = {
         if (expectedError) {
             I.see(expectedError, paysystemResponse);
         } else {
-            I.click(locate('.btn')
-                .withText('Оплатить')
+            I.click(locate('.btn.btn-success')
                 .as('Кнопка «Оплатить»')
                 .inside(paysystemResponse));
 

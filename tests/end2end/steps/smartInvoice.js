@@ -18,41 +18,61 @@ module.exports = {
         I.seeElement(acceptPaymentButton);
 
         I.click(locate('#crm_scope_timeline_c_smart_invoice_1__sms').as('Вкладка SMS/WhatsApp в таймлайне'));
-        I.click(locate('.crm-entity-stream-content-sms-button')
-            .withText('Продажи в SMS')
-            .as('Кнопка «Продажи в SMS»')
+        I.click(locate('[data-role="salescenter-starter"')
+            .as('Кнопка «Продажи в SMS» на вкладке таймлайна SMS/WhatsApp')
         );
+
+        const lang = await I.grabLanguage();
+        const elements = lang === 'ru' ? {
+            sidepanelTitle: 'CRM.Оплата',
+            chooseOnlineCheckout: 'Выберите онлайн кассу',
+            customerChatMessage: 'Клиент получит сообщение в чат',
+            selectProductsToOrder: 'Выберите товары для оплаты',
+            paysystemsAreOnline: 'Платёжные системы работают',
+            dhFinancePaymentMethod: 'DHFinance',
+            sendButton: 'Отправить',
+            paymentLinkRegexp: /^Ссылка для оплаты (?<url>http[^\n]+)$/sm,
+        } : {
+            sidepanelTitle: 'CRM.Payment',
+            chooseOnlineCheckout: 'Select online cash register',
+            customerChatMessage: 'Customer receives a chat message',
+            selectProductsToOrder: 'Select products to order',
+            paysystemsAreOnline: 'Payment systems are online',
+            dhFinancePaymentMethod: 'DHFinance',
+            sendButton: 'Send',
+            paymentLinkRegexp: /^Payment link: (?<url>http[^\n]+)$/sm,
+        };
 
         const sidepanelIframe = '.side-panel-iframe';
         I.waitForElement(sidepanelIframe);
         await within({frame: sidepanelIframe}, async () => {
             I.waitForElement('.ui-page-slider-workarea', 5);
-            I.see('CRM.Оплата');
-            I.waitForText('Выберите онлайн кассу');
+            I.see(elements.sidepanelTitle);
+            I.waitForText(elements.chooseOnlineCheckout);
 
             const collapsableBlock = locate('.salescenter-app-payment-by-sms-item');
             I.seeElement(collapsableBlock
-                .withText('Клиент получит сообщение в чат')
+                .withText(elements.customerChatMessage)
                 .as('Клиент получит сообщение в чат')
             );
             I.seeElement(collapsableBlock
-                .withText('Выберите товары для оплаты')
+                .withText(elements.selectProductsToOrder)
                 .as('Выберите товары для оплаты')
             );
             I.seeElement(collapsableBlock
-                .withText('Платёжные системы работают')
+                .withText(elements.paysystemsAreOnline)
                 .as('Платёжные системы работают')
             );
 
-            // @todo Проверить наличие DHFinance в списке ПС
+            I.see(elements.dhFinancePaymentMethod);
 
-            I.click('Отправить');
+            I.click(elements.sendButton);
         });
         I.waitForInvisible(sidepanelIframe, 5);
 
         //#region Вытащим ссылку, появившуюся из поля ввода сообщения
         const textWithLink = await I.grabValueFrom('#smart_invoice_details_c1_timeline_sms');
-        const textWithLinkRegexp = /^Ссылка для оплаты (?<url>http[^\n]+)$/sm;
+        const textWithLinkRegexp = elements.paymentLinkRegexp;
         assert.match(textWithLink, textWithLinkRegexp, "Сcылка на оплату не найдена");
         const {groups} = textWithLink.match(textWithLinkRegexp);
         //#endregion
