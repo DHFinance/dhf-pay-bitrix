@@ -21,7 +21,7 @@ module.exports = {
         I.amOnPage(invoice.url);
 
         I.click('Действия')
-        I.click('Ссылка на счет')
+        I.click('Ссылка на счет', '.menu-popup-items');
 
         return I.grabValueFrom('#generated-link');
     },
