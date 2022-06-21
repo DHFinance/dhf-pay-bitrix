@@ -27,7 +27,6 @@ exports.config = {
   },
   include: {
     I: './steps_file.js',
-    login: "./lib/login.js",
     modules: "./lib/modules.js",
     paysystems: "./lib/paysystems.js",
 
@@ -36,6 +35,19 @@ exports.config = {
 
     smartInvoicePublicPage: './pages/smartInvoicePublicPage.js',
     dhfiPaymentPage: './pages/dhfiPaymentPage.js',
+  },
+  plugins: {
+    autoLogin: {
+      enabled: true,
+      saveToFile: true,
+      inject: 'loginAs',
+      users: {
+        admin: {
+          login: I => I.loginAsAdmin(),
+          check: I => I.isLoggedIn('admin'),
+        },
+      },
+    },
   },
   bootstrap: null,
   mocha: {},

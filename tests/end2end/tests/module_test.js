@@ -1,10 +1,9 @@
-const assert = require("assert");
 const {config} = require("../lib/config");
 
 Feature("Module install and settings");
 
-Before(async ({I, login}) => {
-    await login.login(process.env.login, process.env.password);
+Before(async ({I, loginAs}) => {
+    await loginAs('admin');
 });
 
 Scenario("Check module " + config.MODULE_NAME + " installed)", async ({I, modules}) => {
@@ -32,8 +31,4 @@ Scenario("Paysystem for old invoices", async ({I, paysystems}) => {
  */
 Scenario("Paysystem for new invoices", async ({I, paysystems}) => {
     await paysystems.paysystemInSalehub(config.PAYSYSTEM_CODE, config.WAIT_SECONDS);
-});
-
-After(({I, login}) => {
-    login.logout();
 });
