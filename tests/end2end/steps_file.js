@@ -25,7 +25,7 @@ module.exports = function () {
             await within(".bx-admin-auth-form", () => {
                 this.fillField('USER_LOGIN', login);
                 this.fillField('USER_PASSWORD', password);
-                this.click('#USER_REMEMBER');
+                this.checkOption('#USER_REMEMBER');
                 this.click('Login');
             });
         },
