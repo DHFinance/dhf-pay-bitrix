@@ -1,4 +1,4 @@
-Feature('Оплата старых счетов');
+Feature('2. Оплата старых счетов');
 
 let prevBaseCurrency;
 
@@ -14,7 +14,7 @@ After(async ({I, loginAs}) => {
     prevBaseCurrency = await I.setInvoiceCurrency(prevBaseCurrency);
 });
 
-Scenario('Оплата старого счета', async ({I, invoiceStep}) => {
+Scenario('2.1. Оплата старого счета', async ({I, invoiceStep}) => {
 
     I.amOnPage('/crm/invoice/list/');
 
@@ -28,7 +28,7 @@ Scenario('Оплата старого счета', async ({I, invoiceStep}) => {
 
 });
 
-Scenario('Наличие ошибки для сумм < 2.5 CSPR', async ({I, invoiceStep}) => {
+Scenario('2.2. Наличие ошибки для сумм < 2.5 CSPR', async ({I, invoiceStep}) => {
 
     I.amOnPage('/crm/invoice/list/');
 
