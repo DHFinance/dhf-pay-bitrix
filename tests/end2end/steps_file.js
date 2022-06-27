@@ -21,8 +21,8 @@ module.exports = function () {
         },
 
         async login(login, password) {
-            this.amOnPage("/bitrix/admin/index.php#authorize");
-            await within(".bx-admin-auth-form", () => {
+            await this.amOnPage("/bitrix/admin/index.php#authorize");
+            return within(".bx-admin-auth-form", () => {
                 this.fillField('USER_LOGIN', login);
                 this.fillField('USER_PASSWORD', password);
                 this.checkOption('#USER_REMEMBER');
@@ -35,7 +35,7 @@ module.exports = function () {
         },
 
         async isLoggedIn(login) {
-            this.amOnPage("/bitrix/admin/index.php");
+            this.amOnPage("/bitrix/admin/index.php#authorize");
             this.seeElement('#bx-panel-logout');
             const value = await this.grabCookie('BITRIX_SM_LOGIN');
             return login === value;
