@@ -86,7 +86,7 @@ module.exports = {
             .inside('.crm-invoice-payment-system-template')
             .as('Ответ платежной системы');
 
-        I.waitForElement(paysystemResponse);
+        I.waitForElement(paysystemResponse, 5);
 
         if (expectedError) {
             I.see(expectedError, paysystemResponse);
