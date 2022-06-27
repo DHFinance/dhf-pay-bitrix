@@ -8,8 +8,8 @@ trait Client
 {
 	protected DHFPay $client;
 
-	public function __construct(DHFPay $client = null)
+	public function __construct(DHFPay $client)
 	{
-		$this->client = $client ?? Config::getClient();
+		$this->client = $client;
 	}
 }

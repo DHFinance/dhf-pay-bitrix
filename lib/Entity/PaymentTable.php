@@ -5,14 +5,9 @@ namespace Citrus\DHFi\Entity;
 use Bitrix\Main\Loader;
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\ORM\Data\DataManager;
-use Bitrix\Main\ORM\Fields\DecimalField;
-use Bitrix\Main\ORM\Fields\EnumField;
-use Bitrix\Main\ORM\Fields\IntegerField;
-use Bitrix\Main\ORM\Fields\Validators\EnumValidator;
-
-use CCrmOwnerType;
-
-use Citrus\DHFi\Config;
+use Bitrix\Main\ORM\Fields;
+use Bitrix\Main\ORM\Fields\Validators;
+use Bitrix\Main\Type\DateTime;
 
 Loc::loadMessages(__FILE__);
 
@@ -28,40 +23,54 @@ class PaymentTable extends DataManager
 		Loader::requireModule('crm');
 
 		return [
-			(new IntegerField('ID',
-				[]
-			))
+			(new Fields\IntegerField('ID'))
 				->configureTitle(Loc::getMessage('PAYMENTS_ENTITY_ID_FIELD'))
 				->configureRequired()
 				->configurePrimary(),
 
-			(new IntegerField('ENTITY_ID',
-				[]
-			))
-				->configureTitle(Loc::getMessage('PAYMENTS_ENTITY_ENTITY_ID_FIELD'))
+			(new Fields\DatetimeField('DATE_CREATE'))
+				->configureTitle(Loc::getMessage('PAYMENTS_ENTITY_DATE_CREATE_FIELD'))
+				->configureDefaultValue(function () {
+					return new DateTime();
+				}),
+
+			(new Fields\DatetimeField('DATE_UPDATE'))
+				->configureTitle(Loc::getMessage('PAYMENTS_ENTITY_DATE_UPDATE_FIELD'))
+				->configureDefaultValue(function () {
+					return new DateTime();
+				}),
+
+			(new Fields\IntegerField('ACCOUNT_NUMBER'))
+				->configureTitle(Loc::getMessage('PAYMENTS_ENTITY_ACCOUNT_NUMBER_FIELD')),
+
+			(new Fields\IntegerField('PAYSYSTEM_ID'))
+				->configureTitle(Loc::getMessage('PAYMENTS_ENTITY_PAYSYSTEM_ID_FIELD'))
 				->configureRequired(),
 
-			(new EnumField('ENTITY_TYPE',
+			(new Fields\StringField('REGISTRY',
 				[
-					'values' => array_filter([
-						CCrmOwnerType::Invoice,
-						Config::hasSmartInvoiceSupport() ? CCrmOwnerType::SmartInvoice : null
-					]),
+					'validation' => static function (): array {
+						return [
+							new Validators\LengthValidator(null, 255),
+						];
+					}
 				]
 			))
-				->configureTitle(Loc::getMessage('PAYMENTS_ENTITY_ENTITY_TYPE_FIELD'))
+				->configureTitle(Loc::getMessage('PAYMENTS_ENTITY_REGISTRY_FIELD'))
 				->configureRequired(),
 
-			(new DecimalField('AMOUNT',
-				[]
-			))
+			(new Fields\DecimalField('AMOUNT'))
 				->configureTitle(Loc::getMessage('PAYMENTS_ENTITY_AMOUNT_FIELD'))
 				->configurePrecision(2)
 				->configureRequired(),
 
-			(new EnumField('STATUS',
+			(new Fields\EnumField('STATUS',
 				[
-					'validation' => [__CLASS__, 'validateStatus'],
+					'validation' => static function(): array {
+						return [
+							new Validators\EnumValidator()
+						];
+					},
 					'values' => [
 						'Not_paid',
 						'Particularly_paid',
@@ -71,13 +80,6 @@ class PaymentTable extends DataManager
 			))
 				->configureTitle(Loc::getMessage('PAYMENTS_ENTITY_STATUS_FIELD'))
 				->configureDefaultValue('Not_paid'),
-		];
-	}
-
-	public static function validateStatus(): array
-	{
-		return [
-			new EnumValidator()
 		];
 	}
 }

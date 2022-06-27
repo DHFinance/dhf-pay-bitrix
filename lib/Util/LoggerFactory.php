@@ -5,6 +5,7 @@ namespace Citrus\DHFi\Util;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
 use Citrus\DHFi\Config;
+use Citrus\DHFi\Util\Log\SalePaySystemHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -27,6 +28,7 @@ class LoggerFactory
 						(int)Option::get('main', 'event_log_cleanup_days', 7)
 					)
 				)
+				->pushHandler(new SalePaySystemHandler())
 			: new NullLogger();
 	}
 }
