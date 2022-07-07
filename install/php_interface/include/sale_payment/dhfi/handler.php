@@ -29,6 +29,8 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 
 	public function __construct($type, Service $service)
 	{
+		Main\Loader::requireModule('citrus.dhfi');
+
 		$this->logger = LoggerFactory::create('handler');
 
 		parent::__construct($type, $service);
