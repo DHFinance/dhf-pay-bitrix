@@ -23,7 +23,7 @@ module.exports = {
             .inside(dhfiPaymentBlock)
             .as('Кнопка «Оплатить»');
         I.click(payButton);
-        I.waitForInvisible(payButton);
+        I.waitForInvisible(payButton, 5);
 
         const error = locate('.alert-danger').as('cообщение об ошибке');
         if (expectedError) {

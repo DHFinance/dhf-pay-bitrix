@@ -44,8 +44,8 @@ exports.config = {
       inject: 'loginAs',
       users: {
         admin: {
-          login: I => I.loginAsAdmin(),
-          check: I => I.isLoggedIn('admin'),
+          login: async I => I.loginAsAdmin(),
+          check: async I => I.isLoggedIn('admin'),
         },
       },
     },
