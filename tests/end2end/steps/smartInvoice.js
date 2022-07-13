@@ -10,16 +10,16 @@ module.exports = {
      */
     async getPublicUrl(invoice) {
 
-        I.say("Создаём ссылку на счёт");
+        I.say("Creating public invoice link");
         I.amOnPage(invoice.url);
 
-        const acceptPaymentButton = locate('.crm-entity-widget-content-block-inner-pay-button').as('Кнопка «Принять оплату»');
+        const acceptPaymentButton = locate('.crm-entity-widget-content-block-inner-pay-button').as('Receive payment button');
         I.waitForElement(acceptPaymentButton);
         I.seeElement(acceptPaymentButton);
 
-        I.click(locate('#crm_scope_timeline_c_smart_invoice_1__sms').as('Вкладка SMS/WhatsApp в таймлайне'));
+        I.click(locate('#crm_scope_timeline_c_smart_invoice_1__sms').as('SMS/WhatsApp tab in timeline'));
         I.click(locate('[data-role="salescenter-starter"')
-            .as('Кнопка «Продажи в SMS» на вкладке таймлайна SMS/WhatsApp')
+            .as('SMS enabled sales link on the SMS/WhatsApp tab')
         );
 
         const lang = await I.grabLanguage();
@@ -53,15 +53,15 @@ module.exports = {
             const collapsableBlock = locate('.salescenter-app-payment-by-sms-item');
             I.seeElement(collapsableBlock
                 .withText(elements.customerChatMessage)
-                .as('Клиент получит сообщение в чат')
+                .as('Customer receives a chat message block')
             );
             I.seeElement(collapsableBlock
                 .withText(elements.selectProductsToOrder)
-                .as('Выберите товары для оплаты')
+                .as('Select products to order block')
             );
             I.seeElement(collapsableBlock
                 .withText(elements.paysystemsAreOnline)
-                .as('Платёжные системы работают')
+                .as('Payment systems are online block')
             );
 
             I.see(elements.dhFinancePaymentMethod);
@@ -73,7 +73,7 @@ module.exports = {
         //#region Вытащим ссылку, появившуюся из поля ввода сообщения
         const textWithLink = await I.grabValueFrom('#smart_invoice_details_c1_timeline_sms');
         const textWithLinkRegexp = elements.paymentLinkRegexp;
-        assert.match(textWithLink, textWithLinkRegexp, "Сcылка на оплату не найдена");
+        assert.match(textWithLink, textWithLinkRegexp, "Public pament link not found");
         const {groups} = textWithLink.match(textWithLinkRegexp);
         //#endregion
 
@@ -88,7 +88,7 @@ module.exports = {
         const invoice = (await I.callRest('crm.item.add', {
             entityTypeId: entity.ID,
             fields: {
-                title: `Тестовый счет от ${(new Date()).toLocaleString()}`,
+                title: `Test invoice ${(new Date()).toLocaleString()}`,
             }
         })).item;
 
@@ -99,7 +99,7 @@ module.exports = {
             productRows: [
                 {
                     productId: product.ID,
-                    productName: "Тестовый товар",
+                    productName: "Test product",
                     quantity: 1,
                     price: amount,
                 }

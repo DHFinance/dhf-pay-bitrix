@@ -1,10 +1,10 @@
-Feature('3. Оплата новых счетов');
+Feature('3. New invoices payment');
 
 Before(async ({I, loginAs}) => {
     await loginAs('admin');
 });
 
-Scenario('3.1. Оплата нового счета', async ({I, smartInvoiceStep, smartInvoicePublicPage}) => {
+Scenario('3.1. New invoice payment', async ({I, smartInvoiceStep, smartInvoicePublicPage}) => {
 
     I.amOnPage('/crm/');
 
@@ -18,7 +18,7 @@ Scenario('3.1. Оплата нового счета', async ({I, smartInvoiceSte
 
 });
 
-Scenario('3.2. Наличие ошибки для сумм < 2.5 CSPR', async ({I, smartInvoiceStep, smartInvoicePublicPage}) => {
+Scenario('3.2. There should be an error for invoices less than 2.5 CSPR', async ({I, smartInvoiceStep, smartInvoicePublicPage}) => {
 
     const amount = 1.5;
     const invoice = await smartInvoiceStep.create(amount);

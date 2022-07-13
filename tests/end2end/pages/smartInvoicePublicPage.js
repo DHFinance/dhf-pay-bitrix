@@ -9,23 +9,23 @@ module.exports = {
 
         I.amOnPage(url);
 
-        I.say("Проверяем страницу счета")
-        I.seeElement(locate('.order-payment-method-container').as('Выберите способ оплаты'));
+        I.say("Checking invoice page")
+        I.seeElement(locate('.order-payment-method-container').as('Select payment method'));
         const dhfiPaymentBlock = locate(this.container)
             .withText(this.paymentMethodTitle)
-            .as('Способ оплаты: ' + this.paymentMethodTitle)
+            .as('Payment method: ' + this.paymentMethodTitle)
         ;
         I.seeElement(dhfiPaymentBlock);
 
-        I.say("Проверяем страницу оплаты")
+        I.say("Checking payment page")
 
         const payButton = locate('.btn.btn-primary')
             .inside(dhfiPaymentBlock)
-            .as('Кнопка «Оплатить»');
+            .as('Pay button');
         I.click(payButton);
         I.waitForInvisible(payButton, 5);
 
-        const error = locate('.alert-danger').as('cообщение об ошибке');
+        const error = locate('.alert-danger').as('error message');
         if (expectedError) {
             I.see(expectedError, error);
         } else {
