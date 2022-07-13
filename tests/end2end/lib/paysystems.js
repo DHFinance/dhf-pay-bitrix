@@ -13,7 +13,7 @@ module.exports = {
         I.amOnPage(this.urls.currency + "&ID=" + currency);
         I.see(currency);
         I.seeAttributesOnElements("form input[name=ID]", {value: currency});
-        I.say("Валюта " + currency + " найдена");
+        I.say("Found currency: " + currency);
     },
 
     async paysystemInCrm(paysystem, checkActive = true) {
@@ -32,16 +32,16 @@ module.exports = {
 
             if (selected == paysystem) {
                 if (checkActive) {
-                    assert.strictEqual(active, "Y", "Платежная система " + name + " неактивна");
+                    assert.strictEqual(active, "Y", `Paysystem ${name} for old invoices is inactive`);
                 }
 
-                I.say("Платежная система " + name + " (" + paysystem + ") для старой версии счетов найдена" + (checkActive ? " и активна" : ""));
+                I.say(`Found ${active ? 'active' : 'inactive'} paysystem ${name} (${paysystem}) for old invoices`);
 
                 hasPs = true;
             }
         }
 
-        assert.ok(hasPs, "Платежная система " + paysystem + " для старой версии счетов не найдена");
+        assert.ok(hasPs, `Paysystem ${paysystem} for old invoices is not found`);
     },
 
     async paysystemInSalehub(paysystem, waitSeconds = 5) {
@@ -53,7 +53,7 @@ module.exports = {
         await within({frame: [".side-panel-iframe"]}, () => {
             I.waitForElement("#salescenter-paysystem", waitSeconds);
             I.seeElement(".salescenter-paysystem-item-status-selected", "[data-id=" + paysystem + "]");
-            I.say("Платежная система " + paysystem + " для новой версии счетов найдена и активна")
+            I.say(`Paysystem active ${paysystem} for new invoices`)
         });
     }
 }

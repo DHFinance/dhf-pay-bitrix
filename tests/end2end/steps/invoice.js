@@ -48,10 +48,10 @@ module.exports = {
                 PERSON_TYPE_ID: companyType.ID,
                 UF_COMPANY_ID: company.ID,
                 PAY_SYSTEM_ID: companyPaysystems[0].ID,
-                ORDER_TOPIC: `Тестовый счет от ${(new Date()).toLocaleString()}`,
+                ORDER_TOPIC: `Test invoice ${(new Date()).toLocaleString()}`,
                 STATUS_ID: "N",
                 PRODUCT_ROWS: [
-                    {"ID": 0, "PRODUCT_ID": product.ID, "PRODUCT_NAME": "Тестовый товар", "QUANTITY": 1, "PRICE": amount},
+                    {"ID": 0, "PRODUCT_ID": product.ID, "PRODUCT_NAME": "Test product", "QUANTITY": 1, "PRICE": amount},
                 ],
             }
         });
@@ -70,21 +70,21 @@ module.exports = {
      */
     async tryToPay(url, amount = 5, expectedError = undefined) {
         I.amOnPage(url);
-        I.seeElement(locate('.crm-invoice-payment-system').as('Оплатить через'));
+        I.seeElement(locate('.crm-invoice-payment-system').as('Pay using'));
 
         const formattedAmount = amount.toFixed(2).replace('.', ',').replace(',00', '');
         I.see(`${formattedAmount} CSPR`, '.crm-invoice-payment-total-sum');
 
         const dhfiMethodBlock = locate('.crm-invoice-payment-system-image-block')
             .withText('DHFinance')
-            .as('Способ оплаты DHFinance');
+            .as('DHFinance payment method');
 
         I.seeElement(dhfiMethodBlock);
         I.click(dhfiMethodBlock);
 
         const paysystemResponse = locate('.crm-invoice-payment-client-template')
             .inside('.crm-invoice-payment-system-template')
-            .as('Ответ платежной системы');
+            .as('Paysystem response');
 
         I.waitForElement(paysystemResponse, 5);
 
@@ -92,7 +92,7 @@ module.exports = {
             I.see(expectedError, paysystemResponse);
         } else {
             I.click(locate('.btn.btn-success')
-                .as('Кнопка «Оплатить»')
+                .as('Pay button')
                 .inside(paysystemResponse));
 
             await dhfiPaymentPage.check(amount);
