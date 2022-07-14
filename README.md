@@ -1,114 +1,108 @@
-# Инструкция по установке и настройке
+# Installation and configuration instructions
+## Brief description on installation and configuration 
 
-## Краткое описание установки и настройки
+The algorithm for installing and configuring the module after installation
 
-Алгоритм установки и настройки модуля после установки
+1. **Installation algorithm, if module is not published on the marketplace:** 
+`http://<website address>/bitrix/admin/update_system_partner.php?addmodule=<module code>`: 
+* <website address> – domen of Bitrix24 portal; 
+* <module code> - `citrus.dhfi`;
+Example link with module code: `http://<website address>/bitrix/admin/update_system_partner.php?addmodule=citrus.dhfi`;
 
-1. **Алгоритм установки, если модуль не опубликован на маркетплейс:**  
-   
-   `http://<адрес сайта>/bitrix/admin/update_system_partner.php?addmodule=<код модуля>`:  
-   * <Адрес сайта> - домен портала Битрикс24;  
-   * <Код модуля> - `citrus.dhfi`;
-  
-   Пример ссылки с кодом модуля: `http://<адрес сайта>/bitrix/admin/update_system_partner.php?addmodule=citrus.dhfi`;
+2. **Client** installs module on **B24 Box from Bitris marketplace site management**:
+- **CSPR** currency is created automatically. 
+CSPR currency rate can be managed from module configuration [Currencies](https://training.bitrix24.com/support/training/course/index.php?COURSE_ID=178&LESSON_ID=23084&LESSON_PATH=17520.18658.4245.1143.23084);
+- **For the old version of accounts Client** creates and configures payment system for payers:
+* Configuration manual is desrcibed in [Bitrix24 official documentation](https://helpdesk.bitrix24.com/open/5872347/);
+* Go to <details><summary>CRM → More → Settings → CRM Settings</summary><img alt="CRM → More → Settings → CRM Settings" src="./.docs/crm-settings.jpg"/></details>
+* Choose <details><summary>Payment option → Payment systems</summary><img alt="Payment option → Payment systems" src="./.docs/payment-systems.jpg"/></details>
+* Click on  *Create payment system*;
+* In the form of creation of the payment system we fill in the lines:
+* *Name* - `DHFinance`;
+* *Handler* – Choose `DHFinance (dhfi)`;
+ * *Active* – put in checkbox;
+* *Client type* – creation of 2 payment systems is required, which will be specified by choosing the given feature, for one we choose *Contact*, for the second *Company*;
+* *API key* – fill in the shop API key from DHFI service;
+* *DHFI api server* – fill in the address of the API interaction service;
+* Is required to create *2 payment systems* depending on the type of payers to whom the invoicing is made:
+* Payment system for *Contacts*;
+* Payment system for *Companies*;
+* The given configuration is used for the old version of accounts;
+* <details><summary>Example if filling in the form of payment system</summary><img alt="Example of filling in the form of the payment system" src="./.docs/image2.png"/></details>
 
-2. **Клиент** устанавливает модуль на **Б24 Коробку из маркетплейса Битрикс управление сайтом**:
-   - Валюта **CSPR** создается автоматически.  
-     Курсом валюты CSPR можно управлять в настройках модуля [Валюты](https://training.bitrix24.com/support/training/course/index.php?COURSE_ID=178&LESSON_ID=23084&LESSON_PATH=17520.18658.4245.1143.23084);
+- **For the new version of accounts: Client** creates and configures payment method in the “Sales center” section of the portal:
+* Configuration instruction with detailed description is in [Bitrix24 official documentation](https://helpdesk.bitrix24.com/open/9613777/);
+* <details><summary>Client goes to the section “Sales center” and clicks on “Payment systems”</summary><img alt="Sales center → Payment systems" src="./.docs/sales-center.png"/></details>
+* <details><summary>Chooses in the subsection “Other payment system” system “DHFinance”</summary><img alt="Select paysystem" src="./.docs/select-paysystem.jpg"/></details>
+* Fills in the configurations to activate the payment method;
+* Saves changes;
+3. Performs the necessary settings for data exchange via the API: in the payment system settings should be indicated the shop ID and API key from  [pay.dhfi.online](https://pay.dhfi.online/)
 
-   - **Для старой версии счетов Клиент** создает и настраивает платежную систему для плательщиков:
-     * Инструкция по настройке описана в [официальной документации Битрикс24](https://helpdesk.bitrix24.com/open/5872347/);
-     * Переходим в <details><summary>CRM → More → Settings → CRM Settings</summary><img alt="CRM → More → Settings → CRM Settings" src="./.docs/crm-settings.jpg"/></details>
-     * Выбираем <details><summary>Payment option → Payment systems</summary><img alt="Payment option → Payment systems" src="./.docs/payment-systems.jpg"/></details>
-     * Кликаем *Create payment system*;
-     * В форме создания платежной системы заполняем поля:
-       * *Name* - `DHFinance`;
-       * *Handler* - Выбираем `DHFinance (dhfi)`;
-       * *Active* - проставляем чекбокс;
-       * *Client type* - потребуется создание 2 платежных систем, которые будут отличаться выбором данного свойства, для одной выбираем *Contact*, для второй *Company*;
-       * *API key* - заполняем API key магазина от сервиса DHFI;
-       * *DHFI api server* - заполняем адрес сервиса взаимодействия API;
-     * Требуется создать *2 платежные системы* в зависимости от типа плательщиков для выставления счетов:
-       * Платежная система для *Контактов*;
-       * Платежная система для *Компаний*;
-     * Данная настройка используется для старой версии счетов;
-     * <details><summary>Пример формы заполнения платежной системы</summary><img alt="Пример формы заполнения платежной системы" src="./.docs/image2.png"/></details>
+4. Payment system DHFI, after activation and correct configuration, is shown depending on the choosen settings in:
+* Public page of the invoice (Illustration 2):
+* Payment methods in the Shop **B24 Box** on the website page (Illustration 3).
 
-   - **Для новой версии счетов: Клиент** создает и настраивает способ оплаты в разделе “Sales center” портала:
-     * Инструкция по настройке с детальным описанием в [официальной документации Битрикс24](https://helpdesk.bitrix24.com/open/9613777/);
-     * <details><summary>Клиент переходит в раздел “Sales center” и кликает на “Payment systems”</summary><img alt="Sales center → Payment systems" src="./.docs/sales-center.png"/></details>
-     * <details><summary>Выбирает в подразделе “Other payment system” систему “DHFinance”</summary><img alt="Select paysystem" src="./.docs/select-paysystem.jpg"/></details>
-     * Заполняет настройки для подключения способа оплаты;
-     * Сохраняет изменения;
-3. Проводит необходимые настройки для обмена данными по API: в настройках платежной системы указывается ID магазина и ключ API из [pay.dhfi.online](https://pay.dhfi.online/)
+## Detailed description of the algorhythm of creation, sending and processing of the payment 
 
-4. Платежная система DHFI после активации и корректной настройки отображается в зависимости от выбранных настроек в:
-   
-   * Публичная страница счета на оплату (Иллюстрация 2):
-   * Способы оплаты в Магазине **Б24 Коробки** на странице сайта (Иллюстрация 3).
+* Video examples of using the invoicing module:
+* [Old invoices](https://user-images.githubusercontent.com/444489/178686899-9e67a3fe-945b-487a-8ce9-e5a84f961aab.webm)
+ * [Sales in sms (Receive payment)](https://user-images.githubusercontent.com/444489/178687137-21a84b67-55dd-44a2-844a-5ce234c4edd0.webm)
+* After the  **Client** has made an invoice on **B24 Box** , the public link of an invoice is send to the customer via the choosen communication channel;
+* The customer opens a given invoice link to choose the payment method and proceeding the payment;
+* In a block “Pay Using” we can see an icon and the name of the payment method of **Module** - “DHFinance”;
+* On the invoice page the customer chooses the payment system “DHFinance” and clicks on “Pay” or the icon of the payment system:
+* Depends on the choosen type of the invoice;
+* Module sends data request with the parameters to the side of the payment system “DHFI”
+* Parameters are filled in from **B24 Box**:
+* Sum of the payment;
+* Unique account identificator;
+* The portal receives via API the ready-made formed link to the invoice;
+* The customer is addressed to the page of the payment, a link to which the portal has received as the answer to the request of the parameters mentioned and described above;
+* The customer proceeds payment on the side of DHFI;
+* DHFI, after the payment is received, sends to the portal the information on the completed invoice via CSPR on the DHFI;
+* Status of the invoice in the case of received data of the payment from DHFI, is changed to “Close invoice”.
 
-## Детальное описание алгоритма создания, отправки и проведения оплаты
-
-* Видео примеры использования модуля для выставления счетов:
-  * [Old invoices](https://user-images.githubusercontent.com/444489/178686899-9e67a3fe-945b-487a-8ce9-e5a84f961aab.webm)
-  * [Sales in sms (Receive payment)](https://user-images.githubusercontent.com/444489/178687137-21a84b67-55dd-44a2-844a-5ce234c4edd0.webm)
-* После создания счета **Клиентом** на **Б24 Коробке** публичная ссылка на оплату счета отправляется покупателю по выбранному каналу связи;
-* Покупатель открывает полученную ссылку счета для выбора способа и проведения оплаты;
-* В блоке “Pay Using” отображается иконка и название способа оплаты **Модуля** - “DHFinance”;
-* Покупатель на странице счета на оплату выбирает платежную систему “DHFinance” и кликает на “Pay” или на иконку платежной системы:
-  * Зависит от выбранного типа счета;
-* Модуль отправляет данные запрос с параметрами на сторону платежной системы “DHFI”
-  * В параметры записываются из **Б24 Коробки**:
-    * Сумма платежа;
-    * Уникальный идентификатор счета;
-* Портал получает по API от сервиса готовую сформированную ссылку на оплату;
-* Покупателя адресует на страницу оплаты, ссылку на которую портал получил в качестве ответа на запрос с параметрами и описанием выше;
-* Покупатель производит оплату на стороне DHFI;
-* DHFI передает после оплаты на портал информацию об оплате счета в CSPR на стороне DHFI;
-* Статус выставленного счета в случае получения информации об оплате от DHFI меняется на “Close invoice”.
-
-## Иллюстрации
+## Illustrations
 
 <details>
-<summary>Иллюстрация 1 - Пример заполнения формы платежной системы для старых счетов</summary>
+<summary> Illustraton 1 – Example of filling in the form of the payment system for the old accounts </summary>
 
-![Иллюстрация 1 - Пример заполнения формы платежной системы для старых счетов](./.docs/image2.png)
+![Illustration 1 – Example of filling in the form for the old accounts](./.docs/image2.png)
 
 </details>
 
 <details>
-<summary>Иллюстрация 2 - Публичная страница счета (Старая версия счета)</summary>
+<summary>Illustration 2 – Public page of the invoice (Old account version)</summary>
 
-![Иллюстрация 2 - Публичная страница счета (Старая версия счета)](./.docs/image1.png)
+![Illustration 2 – Public page of the invoice (Old account version)](./.docs/image1.png)
 
 </details>
 
 <details>
-<summary>Иллюстрация 3 - Публичная страница оплаты (Новая версия счетов - продажи в чатах)</summary>
+<summary>Illustration 3 – Public payment page (New accounts version – sales in chats)</summary>
 
-![Иллюстрация 3 - Публичная страница оплаты (Новая версия счетов - продажи в чатах)](./.docs/image3.png)
+![Illustration 3 – Public payment page (New accounts version – sales in chats)](./.docs/image3.png)
 
 </details>
 
-# Сквозное тестирование
+# End-to-end testing
 
-Для работы нужен NodeJS LTS с npm 8.12.
+ NodeJS LTS with npm 8.12. Is required for work
 
-## Установка:
-В папке tests
-1. Скопировать `.env.example` в `.env`,
-2. Указать в `.env` URL тестового Битрикс24, логин и пароль администратора,
-3. Выполнить `npm install`
+## Installation:
+In tests folder
+1. Copy `.env.example` to `.env`,
+2. Mark in `.env` URL of the test Bitrix24, admin’s login and password,
+3. Proceed `npm install`
 
-## Необходимые настройки Битрикс24 для запуска тестов
+## Required settings of Bitrix24 for running tests
 
-- Создать «CRM + Интернет-магазин» в разделе «Магазин»
-- Настроить провайдер SMS. Без этого не даёт сгенерировать ссылку на оплату,
-- Настроить способы оплаты для старых и новых счетов: для контактов и для компаний,
-- Способ оплаты должен называться «DHFinance», на страницах оплаты тесты ориентируются на это название.
+- Create «CRM + Internet-shop» in the «Shop» section
+- Configure the SMS provider. Without it, a link to the payment can’t be generated,
+- Set payment methods for the old and new accounts: for contacts and for companies,
+- Payment method should be called «DHFinance», on the payment pages tests are oriented to that name.
 
-## Запуск
-В папке tests
-- `npm run codeceptjs` или `npm run codeceptjs:ui`
-- `npm run codeceptjs:headless` если окно браузера показывать не нужно
-
+## Running
+In the tests folder
+- `npm run codeceptjs` or `npm run codeceptjs:ui`
+- `npm run codeceptjs:headless` if there is no need to show the  browser window
