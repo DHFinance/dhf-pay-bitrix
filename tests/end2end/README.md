@@ -1,21 +1,19 @@
-# Сквозное тестирование
+# End-to-end testing
 
-Для работы нужен NodeJS LTS с npm 8.12.
+ NodeJS LTS with npm 8.12. Is required for work
 
-## Установка:
+## Installation:
+1. Copy `.env.example` to `.env`,
+2. Mark in `.env` URL of the test Bitrix24, admin’s login and password,
+3. Proceed `npm install`
 
-1. Скопировать `.env.example` в `.env`,
-2. Указать в `.env` URL тестового Битрикс24, логин и пароль администратора,
-3. Выполнить `npm install`
+## Required settings of Bitrix24 for running tests
 
-## Необходимые настройки Битрикс24 для запуска тестов
+- Create «CRM + Internet-shop» in the «Shop» section
+- Configure the SMS provider. Without it, a link to the payment can’t be generated,
+- Set payment methods for the old and new accounts: for contacts and for companies,
+- Payment method should be called «DHFinance», on the payment pages tests are oriented to that name.
 
-- Создать «CRM + Интернет-магазин» в разделе «Магазин»
-- Настроить провайдер SMS. Без этого не даёт сгенерировать ссылку на оплату,
-- Настроить способы оплаты для старых и новых счетов: для контактов и для компаний,
-- Способ оплаты должен называться «DHFinance», на страницах оплаты тесты ориентируются на это название.
-
-## Запуск
-
-- `npm run codeceptjs` или `npm run codeceptjs:ui`
-- `npm run codeceptjs:headless` если окно браузера показывать не нужно
+## Running
+- `npm run codeceptjs` or `npm run codeceptjs:ui`
+- `npm run codeceptjs:headless` if there is no need to show the  browser window
