@@ -4,7 +4,7 @@
 
 ## Installation:
 1. Copy `.env.example` to `.env`,
-2. Mark in `.env` URL of the test Bitrix24, admin’s login and password,
+2. Specify test Bitrix24 URL, admin login and password in `.env` file,
 3. Proceed `npm install`
 
 ## Required settings of Bitrix24 for running tests
@@ -15,5 +15,7 @@
 - Payment method should be called «DHFinance», on the payment pages tests are oriented to that name.
 
 ## Running
-- `npm run codeceptjs` or `npm run codeceptjs:ui`
-- `npm run codeceptjs:headless` if there is no need to show the  browser window
+
+- `npm run codeceptjs`: runs tests in console with visible browser window. Test results are output to the console upon competition.
+- `npm run codeceptjs:ui`: opens UI to run all or seperate tests in browser window. Test results are in UI, click on a particular test to see its results in depth.  
+- `npm run codeceptjs:headless` runs tests in console only with no browser window. Test results are output to the console upon competition. 
