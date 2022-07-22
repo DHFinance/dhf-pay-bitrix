@@ -5,9 +5,9 @@ The algorithm for installing and configuring the module after installation
 
 1. **Installation algorithm, if module is not published on the marketplace:** 
 `http://<website address>/bitrix/admin/update_system_partner.php?addmodule=<module code>`: 
-* <website address> – domen of Bitrix24 portal; 
-* <module code> - `citrus.dhfi`;
-Example link with module code: `http://<website address>/bitrix/admin/update_system_partner.php?addmodule=citrus.dhfi`;
+    * website address – domen of Bitrix24 portal; 
+    * module code - `citrus.dhfi`;
+* Example link with module code: `http://<website address>/bitrix/admin/update_system_partner.php?addmodule=citrus.dhfi`;
 
 2. **Client** installs module on **B24 Box from Bitris marketplace site management**:
 - **CSPR** currency is created automatically. 
@@ -40,20 +40,20 @@ CSPR currency rate can be managed from module configuration [Currencies](https:/
 
 4. Payment system DHFI, after activation and correct configuration, is shown depending on the choosen settings in:
 * Public page of the invoice (Illustration 2):
-* Payment methods in the Shop **B24 Box** on the website page (Illustration 3).
+* Payment methods in the Shop **Bitrix24** on the website page (Illustration 3).
 
 ## Detailed description of the algorhythm of creation, sending and processing of the payment 
 
 * Video examples of using the invoicing module:
 * [Old invoices](https://user-images.githubusercontent.com/444489/178686899-9e67a3fe-945b-487a-8ce9-e5a84f961aab.webm)
  * [Sales in sms (Receive payment)](https://user-images.githubusercontent.com/444489/178687137-21a84b67-55dd-44a2-844a-5ce234c4edd0.webm)
-* After the  **Client** has made an invoice on **B24 Box** , the public link of an invoice is send to the customer via the choosen communication channel;
+* After the  **Client** has made an invoice on **Bitrix24** , the public link of an invoice is send to the customer via the choosen communication channel;
 * The customer opens a given invoice link to choose the payment method and proceeding the payment;
 * In a block “Pay Using” we can see an icon and the name of the payment method of **Module** - “DHFinance”;
 * On the invoice page the customer chooses the payment system “DHFinance” and clicks on “Pay” or the icon of the payment system:
 * Depends on the choosen type of the invoice;
 * Module sends data request with the parameters to the side of the payment system “DHFI”
-* Parameters are filled in from **B24 Box**:
+* Parameters are filled in from **Bitrix24**:
 * Sum of the payment;
 * Unique account identificator;
 * The portal receives via API the ready-made formed link to the invoice;
