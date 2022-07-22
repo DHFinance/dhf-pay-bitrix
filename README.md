@@ -3,13 +3,13 @@
 
 The algorithm for installing and configuring the module after installation
 
-1. **Installation algorithm, if module is not published on the marketplace:** 
-`http://<website address>/bitrix/admin/update_system_partner.php?addmodule=<module code>`: 
+1. **If module is not published on the marketplace, installation algorithm :** 
+* Type the following address into your browser `http://<website address>/bitrix/admin/update_system_partner.php?addmodule=<module code>`: 
     * website address – domen of Bitrix24 portal; 
     * module code - `citrus.dhfi`;
 * Example link with module code: `http://<website address>/bitrix/admin/update_system_partner.php?addmodule=citrus.dhfi`;
 
-2. **Client** installs module on **Bitrix24 from Bitrix marketplace site management**:
+2. **If module was published on the marketplace, Client installs module on Bitrix24 from the marketplace :**
 - **CSPR** currency is created automatically. 
 CSPR currency rate can be managed from module configuration [Currencies](https://training.bitrix24.com/support/training/course/index.php?COURSE_ID=178&LESSON_ID=23084&LESSON_PATH=17520.18658.4245.1143.23084);
 - **For the all version of accounts Client** creates and configures payment system for payers:
@@ -32,8 +32,7 @@ CSPR currency rate can be managed from module configuration [Currencies](https:/
 
 3. Performs the necessary settings for data exchange via the API: in the payment system settings should be indicated the shop ID and API key from  [pay.dhfi.online](https://pay.dhfi.online/)
 
-4. Payment system DHFI, after activation and correct configuration, is shown in:
-* Public page of the invoice (Illustration 2):
+4. Payment system DHFI, after activation and correct configuration, is shown in the Public page of the invoice (Illustration 2).
 
 ## Detailed description of the algorhythm of creation, sending and processing of the payment 
 
