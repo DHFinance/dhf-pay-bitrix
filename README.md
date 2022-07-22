@@ -12,7 +12,7 @@ The algorithm for installing and configuring the module after installation
 2. **Client** installs module on **Bitrix24 from Bitrix marketplace site management**:
 - **CSPR** currency is created automatically. 
 CSPR currency rate can be managed from module configuration [Currencies](https://training.bitrix24.com/support/training/course/index.php?COURSE_ID=178&LESSON_ID=23084&LESSON_PATH=17520.18658.4245.1143.23084);
-- **For the old version of accounts Client** creates and configures payment system for payers:
+- **For the all version of accounts Client** creates and configures payment system for payers:
 * Configuration manual is desrcibed in [Bitrix24 official documentation](https://helpdesk.bitrix24.com/open/5872347/);
 * Go to <details><summary>CRM → More → Settings → CRM Settings</summary><img alt="CRM → More → Settings → CRM Settings" src="./.docs/crm-settings.jpg"/></details>
 * Choose <details><summary>Payment option → Payment systems</summary><img alt="Payment option → Payment systems" src="./.docs/payment-systems.jpg"/></details>
@@ -27,30 +27,21 @@ CSPR currency rate can be managed from module configuration [Currencies](https:/
 * Is required to create *2 payment systems* depending on the type of payers to whom the invoicing is made:
 * Payment system for *Contacts*;
 * Payment system for *Companies*;
-* The given configuration is used for the old version of accounts;
+* The given configuration is used for the all version of accounts;
 * <details><summary>Example if filling in the form of payment system</summary><img alt="Example of filling in the form of the payment system" src="./.docs/image2.png"/></details>
 
-- **For the new version of accounts: Client** creates and configures payment method in the “Sales center” section of the portal:
-* Configuration instruction with detailed description is in [Bitrix24 official documentation](https://helpdesk.bitrix24.com/open/9613777/);
-* <details><summary>Client goes to the section “Sales center” and clicks on “Payment systems”</summary><img alt="Sales center → Payment systems" src="./.docs/sales-center.png"/></details>
-* <details><summary>Chooses in the subsection “Other payment system” system “DHFinance”</summary><img alt="Select paysystem" src="./.docs/select-paysystem.jpg"/></details>
-* Fills in the configurations to activate the payment method;
-* Saves changes;
 3. Performs the necessary settings for data exchange via the API: in the payment system settings should be indicated the shop ID and API key from  [pay.dhfi.online](https://pay.dhfi.online/)
 
-4. Payment system DHFI, after activation and correct configuration, is shown depending on the choosen settings in:
+4. Payment system DHFI, after activation and correct configuration, is shown in:
 * Public page of the invoice (Illustration 2):
-* Payment methods in the Shop **Bitrix24** on the website page (Illustration 3).
 
 ## Detailed description of the algorhythm of creation, sending and processing of the payment 
 
-* Video examples of using the invoicing module:
-* [Old invoices](https://user-images.githubusercontent.com/444489/178686899-9e67a3fe-945b-487a-8ce9-e5a84f961aab.webm)
- * [Sales in sms (Receive payment)](https://user-images.githubusercontent.com/444489/178687137-21a84b67-55dd-44a2-844a-5ce234c4edd0.webm)
+* Video examples of using the invoicing module: [Invoices](https://user-images.githubusercontent.com/444489/178686899-9e67a3fe-945b-487a-8ce9-e5a84f961aab.webm)
 * After the  **Client** has made an invoice on **Bitrix24** , the public link of an invoice is send to the customer via the choosen communication channel;
 * The customer opens a given invoice link to choose the payment method and proceeding the payment;
 * In a block “Pay Using” we can see an icon and the name of the payment method of **Module** - “DHFinance”;
-* On the invoice page the customer chooses the payment system “DHFinance” and clicks on “Pay” or the icon of the payment system: Depends on the choosen type of the invoice;
+* On the invoice page the customer chooses the payment system “DHFinance” and clicks on “Pay” or the icon of the payment system;
 * Module sends data request with the parameters to the side of the payment system “DHFI”
 * Parameters are filled in from **Bitrix24**: Sum of the payment; Unique account identificator;
 * The portal receives via API the ready-made formed link to the invoice;
@@ -62,25 +53,19 @@ CSPR currency rate can be managed from module configuration [Currencies](https:/
 ## Illustrations
 
 <details>
-<summary> Illustraton 1 – Example of filling in the form of the payment system for the old accounts </summary>
+<summary> Illustraton 1 – Example of filling in the form of the payment system </summary>
 
-![Illustration 1 – Example of filling in the form for the old accounts](./.docs/image2.png)
-
-</details>
-
-<details>
-<summary>Illustration 2 – Public page of the invoice (Old account version)</summary>
-
-![Illustration 2 – Public page of the invoice (Old account version)](./.docs/image1.png)
+![Illustration 1 – Example of filling in the form](./.docs/image2.png)
 
 </details>
 
 <details>
-<summary>Illustration 3 – Public payment page (New accounts version – sales in chats)</summary>
+<summary>Illustration 2 – Public page of the invoice </summary>
 
-![Illustration 3 – Public payment page (New accounts version – sales in chats)](./.docs/image3.png)
+![Illustration 2 – Public page of the invoice](./.docs/image1.png)
 
 </details>
+
 
 # End-to-end testing
 
@@ -95,7 +80,7 @@ CSPR currency rate can be managed from module configuration [Currencies](https:/
 
 - Create «CRM + Internet-shop» in the «Shop» section
 - Configure the SMS provider. Without it, a link to the payment can’t be generated,
-- Set payment methods for the old and new accounts: for contacts and for companies,
+- Set payment methods for the accounts: for contacts and for companies,
 - Payment method should be called «DHFinance», on the payment pages tests are oriented to that name.
 
 ## Running
