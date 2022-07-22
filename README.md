@@ -9,7 +9,7 @@ The algorithm for installing and configuring the module after installation
     * module code - `citrus.dhfi`;
 * Example link with module code: `http://<website address>/bitrix/admin/update_system_partner.php?addmodule=citrus.dhfi`;
 
-2. **Client** installs module on **B24 Box from Bitris marketplace site management**:
+2. **Client** installs module on **Bitrix24 from Bitrix marketplace site management**:
 - **CSPR** currency is created automatically. 
 CSPR currency rate can be managed from module configuration [Currencies](https://training.bitrix24.com/support/training/course/index.php?COURSE_ID=178&LESSON_ID=23084&LESSON_PATH=17520.18658.4245.1143.23084);
 - **For the old version of accounts Client** creates and configures payment system for payers:
