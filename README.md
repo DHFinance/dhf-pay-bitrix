@@ -50,12 +50,9 @@ CSPR currency rate can be managed from module configuration [Currencies](https:/
 * After the  **Client** has made an invoice on **Bitrix24** , the public link of an invoice is send to the customer via the choosen communication channel;
 * The customer opens a given invoice link to choose the payment method and proceeding the payment;
 * In a block “Pay Using” we can see an icon and the name of the payment method of **Module** - “DHFinance”;
-* On the invoice page the customer chooses the payment system “DHFinance” and clicks on “Pay” or the icon of the payment system:
-* Depends on the choosen type of the invoice;
+* On the invoice page the customer chooses the payment system “DHFinance” and clicks on “Pay” or the icon of the payment system: Depends on the choosen type of the invoice;
 * Module sends data request with the parameters to the side of the payment system “DHFI”
-* Parameters are filled in from **Bitrix24**:
-* Sum of the payment;
-* Unique account identificator;
+* Parameters are filled in from **Bitrix24**: Sum of the payment; Unique account identificator;
 * The portal receives via API the ready-made formed link to the invoice;
 * The customer is addressed to the page of the payment, a link to which the portal has received as the answer to the request of the parameters mentioned and described above;
 * The customer proceeds payment on the side of DHFI;
