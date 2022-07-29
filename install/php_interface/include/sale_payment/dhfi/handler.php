@@ -369,7 +369,8 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 
 			$paymentInfo = self::getPaymentInfo($dto);
 			return $paymentInfo
-				&& $paymentInfo['PAYSYSTEM_ID'] == $paySystemId
+				// При оплате старых счетов у платежа указан ID платежной системы «Счет» вместо той, что выбрал пользователь на публичной странице счета :/
+				/*&& $paymentInfo['PAYSYSTEM_ID'] == $paySystemId*/
 				&& $paymentInfo['REGISTRY'] == $service->getField('ENTITY_REGISTRY_TYPE');
 		} catch (\Exception $e) {
 			return false;
