@@ -3,6 +3,7 @@
 namespace Sale\Handlers\PaySystem;
 
 use Bitrix\Main;
+use Bitrix\Main\Loader;
 use Bitrix\Sale;
 use Bitrix\Sale\PaySystem\Service;
 use Bitrix\Sale\PaySystem\ServiceResult;
@@ -29,7 +30,7 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 
 	public function __construct($type, Service $service)
 	{
-		Main\Loader::requireModule('citrus.dhfi');
+		Loader::requireModule('citrus.dhfi');
 
 		$this->logger = LoggerFactory::create('handler');
 
@@ -356,8 +357,13 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 	 */
 	public static function isMyResponse(Main\Request $request, $paySystemId)
 	{
+		if (!Loader::includeModule('citrus.dhfi')) {
+			return false;
+		}
+
 		try {
 			$jsonPayload = (new Main\Engine\JsonPayload())->getData();
+
 			$dto = new PaymentDTO($jsonPayload);
 			$service = Sale\PaySystem\Manager::getObjectById($paySystemId);
 
