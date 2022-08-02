@@ -281,6 +281,11 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 			return $result;
 		}
 
+		/**
+		 * Сумма передается в обработчик в «мотсах», преобразуем в CSPR
+		 */
+		$dto->amount /= \DHF\Pay\Payments::MOTS_S;
+
 		if ($dto->status === 'Paid') {
 			$fields = [
 				'PS_INVOICE_ID' => $dto->id,
