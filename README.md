@@ -12,7 +12,7 @@ The algorithm for installing and configuring the module after installation
 * Example link with module code: `http://<website address>/bitrix/admin/update_system_partner.php?addmodule=citrus.dhfi`;
 
 2. **If module was published on the marketplace, Client installs module on Bitrix24 from the marketplace :**
-- **For the all version of accounts Client** creates and configures payment system for payers:
+- **For the all version of accounts Client**: creates and configures payment system for payers:
 * Configuration manual is desrcibed in [Bitrix24 official documentation](https://helpdesk.bitrix24.com/open/5872347/);
 * Go to <details><summary>CRM → More → Settings → CRM Settings</summary><img alt="CRM → More → Settings → CRM Settings" src="./.docs/crm-settings.jpg"/></details>
 * Choose <details><summary>Payment option → Payment systems</summary><img alt="Payment option → Payment systems" src="./.docs/payment-systems.jpg"/></details>
