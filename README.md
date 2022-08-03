@@ -7,7 +7,7 @@ The algorithm for installing and configuring the module after installation
 
 1. **If module is not published on the marketplace, installation algorithm :** 
 * Type the following address into your browser `http://<website address>/bitrix/admin/update_system_partner.php?addmodule=<module code>`: 
-    * website address – domen of Bitrix24 portal; 
+    * website address – domain of Bitrix24 portal; 
     * module code - `citrus.dhfi`;
 * Example link with module code: `http://tsaritnp.beget.tech/bitrix/admin/update_system_partner.php?addmodule=citrus.dhfi`;
 
