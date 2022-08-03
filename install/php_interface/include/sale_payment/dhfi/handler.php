@@ -3,6 +3,7 @@
 namespace Sale\Handlers\PaySystem;
 
 use Bitrix\Main;
+use Bitrix\Main\Loader;
 use Bitrix\Sale;
 use Bitrix\Sale\PaySystem\Service;
 use Bitrix\Sale\PaySystem\ServiceResult;
@@ -29,7 +30,7 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 
 	public function __construct($type, Service $service)
 	{
-		Main\Loader::requireModule('citrus.dhfi');
+		Loader::requireModule('citrus.dhfi');
 
 		$this->logger = LoggerFactory::create('handler');
 
@@ -280,6 +281,11 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 			return $result;
 		}
 
+		/**
+		 * Сумма передается в обработчик в «мотсах», преобразуем в CSPR
+		 */
+		$dto->amount /= \DHF\Pay\Payments::MOTS_S;
+
 		if ($dto->status === 'Paid') {
 			$fields = [
 				'PS_INVOICE_ID' => $dto->id,
@@ -356,14 +362,20 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 	 */
 	public static function isMyResponse(Main\Request $request, $paySystemId)
 	{
+		if (!Loader::includeModule('citrus.dhfi')) {
+			return false;
+		}
+
 		try {
 			$jsonPayload = (new Main\Engine\JsonPayload())->getData();
+
 			$dto = new PaymentDTO($jsonPayload);
 			$service = Sale\PaySystem\Manager::getObjectById($paySystemId);
 
 			$paymentInfo = self::getPaymentInfo($dto);
 			return $paymentInfo
-				&& $paymentInfo['PAYSYSTEM_ID'] == $paySystemId
+				// При оплате старых счетов у платежа указан ID платежной системы «Счет» вместо той, что выбрал пользователь на публичной странице счета :/
+				/*&& $paymentInfo['PAYSYSTEM_ID'] == $paySystemId*/
 				&& $paymentInfo['REGISTRY'] == $service->getField('ENTITY_REGISTRY_TYPE');
 		} catch (\Exception $e) {
 			return false;
