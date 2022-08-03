@@ -1,5 +1,5 @@
 # Installation and configuration instructions
-* We have installed Bitrix24 last version here http://tsaritnp.beget.tech. So you can test installation and functions.
+* We have installed Bitrix24 latest version here http://tsaritnp.beget.tech. So you can test the installation and functions of integration module.
 * To get the account for testing, please contact via telegram: huytran2017
 ## Brief description on installation and configuration 
 
