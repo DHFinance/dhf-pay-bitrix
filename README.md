@@ -32,7 +32,7 @@ The algorithm for installing and configuring the module after installation
 
 4. Payment system DHFI, after activation and correct configuration, is shown in the Public page of the invoice (Illustration 2).
 
-## Detailed description of the algorhythm of creation, sending and processing of the payment 
+## Detailed description of the algorithm of creation, sending and processing of the payment 
 
 * Video examples of using the invoicing module: [Invoices](https://user-images.githubusercontent.com/444489/178686899-9e67a3fe-945b-487a-8ce9-e5a84f961aab.webm)
 * After the  **Client** has made an invoice on **Bitrix24** , the public link of an invoice is send to the customer via the choosen communication channel;
