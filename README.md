@@ -9,7 +9,7 @@ The algorithm for installing and configuring the module after installation
 * Type the following address into your browser `http://<website address>/bitrix/admin/update_system_partner.php?addmodule=<module code>`: 
     * website address – domen of Bitrix24 portal; 
     * module code - `citrus.dhfi`;
-* Example link with module code: `http://<website address>/bitrix/admin/update_system_partner.php?addmodule=citrus.dhfi`;
+* Example link with module code: `http://tsaritnp.beget.tech/bitrix/admin/update_system_partner.php?addmodule=citrus.dhfi`;
 
 2. **If module was published on the marketplace, Client installs module on Bitrix24 from the marketplace :**
 - **For the all version of accounts Client**: creates and configures payment system for payers:
