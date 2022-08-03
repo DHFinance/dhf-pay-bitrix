@@ -11,7 +11,7 @@ The algorithm for installing and configuring the module after installation
     * module code - `citrus.dhfi`;
 * Example link with module code: `http://tsaritnp.beget.tech/bitrix/admin/update_system_partner.php?addmodule=citrus.dhfi`;
 
-2. **Creates and configures payment system for payers:**
+2. **Create and configure payment system for payers:**
 * Go to <details><summary>CRM → More → Settings → CRM Settings</summary><img alt="CRM → More → Settings → CRM Settings" src="./.docs/crm-settings.jpg"/></details>
 * Choose <details><summary>Payment option → Payment systems</summary><img alt="Payment option → Payment systems" src="./.docs/payment-systems.jpg"/></details>
 * Click on  *Create payment system*;
