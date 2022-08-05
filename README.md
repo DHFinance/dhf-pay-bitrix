@@ -34,7 +34,7 @@ The algorithm for installing and configuring the module after installation
 
 ## Detailed description of the algorithm of creation, sending and processing of the payment 
 
-* Video examples of using the invoicing module: [Invoices](https://www.youtube.com/watch?v=vODM4Ghqz5A)
+* Video examples of using the invoicing module: This is an introductory video, guiding the process of creating invoices on Bitrix24 and paying with CSPR via DHFinance payment gateway [Video](https://www.youtube.com/watch?v=vODM4Ghqz5A)
 * After the  **Client** has made an invoice on **Bitrix24** , the public link of an invoice is send to the customer via the choosen communication channel;
 * The customer opens a given invoice link to choose the payment method and proceeding the payment;
 * In a block “Pay Using” we can see an icon and the name of the payment method of **Module** - “DHFinance”;
