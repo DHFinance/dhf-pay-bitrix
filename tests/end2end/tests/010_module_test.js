@@ -15,19 +15,19 @@ Scenario(`1.2. Currency ${config.CURRENCY_CODE} should exist`, async ({I, paysys
 });
 
 /**
- * Проверяется настройка и активность платежной системы для старой версии счетов:
- * - переходим в подраздел “CRM” -> “Настройки” -> “Способы оплаты”;
- * - в блоке “Платежная система” отображается платежная система DHFinance и статус системы равен “Y”;
+ * Paysystem settings and activity is checked for old CRM invoices:
+ * - navigating to “CRM” -> “Settings” -> “Payment methods”;
+ * - In “Payment system” block DHFinance paysystem should be displayed with status “Y”;
  */
 Scenario("1.3. Paysystem for old invoices should exist", async ({I, paysystems}) => {
     await paysystems.paysystemInCrm(config.PAYSYSTEM_CODE);
 });
 
 /**
- * Проверяется настройка и активность платежной системы для новой версии счетов:
- * - открываем раздел “Центр продаж”;
- * - открываем пункт “Платежные системы”;
- * - во всплывающем окне в блоке у платежной системы DHFinance проставлена галочка, которая обозначает успешное подключение и активность платежной системы
+ * Paysystem settings and activity is checked for new CRM invoices::
+ * - navigating to “Sales Center”;
+ * - opening “Payment systems”;
+ * - should see a popup containing DHFinance paysystem with checked checkbox, it means paysystem is active and successfuly setup
  */
 Scenario("1.4. Paysystem for new invoices should exist", async ({I, paysystems}) => {
     await paysystems.paysystemInSalehub(config.PAYSYSTEM_CODE, config.WAIT_SECONDS);

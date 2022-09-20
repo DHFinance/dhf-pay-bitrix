@@ -36,7 +36,7 @@ class Crm extends Controller
 	}
 
 	/**
-	 * Получает валюту старых счетов CRM
+	 * Returns currency for old CRM invoices
 	 *
 	 * citrus.dhfi.util.Crm.getInvoiceCurrency
 	 *
@@ -59,13 +59,13 @@ class Crm extends Controller
 	}
 
 	/**
-	 * Устанавливает валюту для старых счетов CRM
+	 * Installs currency for old CRM invoices
 	 *
 	 * citrus.dhfi.util.Crm.setInvoiceCurrency
 	 *
-	 * @param string $id Код валюты
+	 * @param string $id Currency code
 	 * @param CurrentUser $user
-	 * @return AjaxJson В ключе prev возвращает прежнее значение этой настройки
+	 * @return AjaxJson Returns previous value of this setting in prev property
 	 */
 	public static function setInvoiceCurrencyAction(string $id, CurrentUser $user): AjaxJson
 	{

@@ -51,7 +51,7 @@ module.exports = function () {
         },
 
         /**
-         * Устанавливает валюту старых счетов
+         * Sets currency for old invoices
          *
          * @param {string} id
          * @returns {Promise<{prev: string}>}

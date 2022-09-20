@@ -14,36 +14,21 @@ class citrus_dhfi extends CModule
 	const MAIN_MIN_VERSION = '21.400.0';
 	const CRM_MIN_VERSION = '21.700.0';
 
-	/**
-	 * @var string Код модуля
-	 */
 	public $MODULE_ID = "citrus.dhfi";
-	/**
-	 * @var string Права модуля
-	 */
 	public $MODULE_GROUP_RIGHTS = 'N';
-	/**
-	 * @var string Версия модуля
-	 */
 	public $MODULE_VERSION = '0.0.1';
 	/**
-	 * @var string Дата создания или обновления модуля в формате Y-m-d
+	 * @var string Create or update date in Y-m-d format
 	 */
 	public $MODULE_VERSION_DATE;
-	/**
-	 * @var string Название модуля
-	 */
 	public $MODULE_NAME;
-	/**
-	 * @var string Описание модуля
-	 */
 	public $MODULE_DESCRIPTION;
 	/**
-	 * @var string Автор модуля
+	 * @var string Module author
 	 */
 	public $PARTNER_NAME;
 	/**
-	 * @var string Ссылка на сайт автора
+	 * @var string Link to a website
 	 */
 	public $PARTNER_URI;
 
@@ -59,13 +44,13 @@ class citrus_dhfi extends CModule
 
 		$this->MODULE_NAME = GetMessage('CITRUS_DHFI_MODULE_NAME');
 		$this->MODULE_DESCRIPTION = GetMessage('CITRUS_DHFI_MODULE_DESCRIPTION');
-		// если заполнять PARTNER_NAME и PARTNER_URI через Loc::getMessage, файл не проходит проверку на маркетплейсе
+		// Avoid using Loc::getMessage for PARTNER_NAME and PARTNER_URI, upload to maketplace would fail
 		$this->PARTNER_NAME = GetMessage("CITRUS_PARTNER_NAME");
 		$this->PARTNER_URI = GetMessage("CITRUS_PARTNER_URI");
 	}
 
 	/**
-	 * Установка модуля
+	 * Module installation
 	 */
 	public function DoInstall()
 	{
@@ -81,7 +66,7 @@ class citrus_dhfi extends CModule
 	}
 
 	/**
-	 * Удаление моудля и всех его составляющих
+	 * Module uninstallation
 	 */
 	function DoUninstall()
 	{
@@ -97,7 +82,7 @@ class citrus_dhfi extends CModule
 	}
 
 	/**
-	 * Загрузка данных в базы или создание необходимых таблиц
+	 * Database schema creation and population with data, module registration
 	 *
 	 * @return bool
 	 */
@@ -167,7 +152,8 @@ class citrus_dhfi extends CModule
 	}
 
 	/**
-	 * Удаление данных из базы
+	 * Uninstall module from database
+	 *
 	 * @return bool
 	 */
 	function UnInstallDB()
@@ -199,7 +185,7 @@ class citrus_dhfi extends CModule
 	}
 
 	/**
-	 * Регистрация типов и почтовых событий
+	 * Mail events registration
 	 *
 	 * @return bool
 	 */
@@ -209,7 +195,7 @@ class citrus_dhfi extends CModule
 	}
 
 	/**
-	 * Отмена регистрации типов и почтовых событий
+	 * Mail events removal
 	 *
 	 * @return bool
 	 */
@@ -229,7 +215,7 @@ class citrus_dhfi extends CModule
 	}
 
 	/**
-	 * Копирование файлов модуля
+	 * Copies files
 	 *
 	 * @return bool
 	 */
@@ -242,7 +228,7 @@ class citrus_dhfi extends CModule
 	}
 
 	/**
-	 * Удаление файлов модуля
+	 * Removes files
 	 *
 	 * @return bool
 	 */
@@ -255,7 +241,7 @@ class citrus_dhfi extends CModule
 	}
 
 	/**
-	 * @return string Путь установки модуля от корня сайта: папка /bitrix или /local
+	 * @return string Top level folder where module is installed relative to DOCUMENT_ROOT: /bitrix or /local
 	 */
 	protected function getBxRoot()
 	{
@@ -263,7 +249,7 @@ class citrus_dhfi extends CModule
 	}
 
 	/**
-	 * Загружает версию модуля из version.php
+	 * Loads version from version.php
 	 */
 	protected function loadVersion()
 	{
@@ -281,16 +267,16 @@ class citrus_dhfi extends CModule
 	}
 
 	/**
-	 * Удаляет файлы модуля, скопированные в $target.
+	 * Removes files copied to $target.
 	 *
-	 * Действие обратное функции {@link https://dev.1c-bitrix.ru/api_help/main/functions/file/copydirfiles.php CopyDirFiles}.
+	 * Reverses {@link https://dev.1c-bitrix.ru/api_help/main/functions/file/copydirfiles.php CopyDirFiles} action.
 	 *
-	 * Удаляет только файлы и папки, которые есть в $source по аналогии с {@link https://dev.1c-bitrix.ru/api_help/main/functions/file/deletedirfiles.php DeleteDirFiles}.
+	 * Deletes only files and folders that are in $source similar to {@link https://dev.1c-bitrix.ru/api_help/main/functions/file/deletedirfiles.php DeleteDirFiles}.
 	 *
-	 * В отличие от {@link https://dev.1c-bitrix.ru/api_help/main/functions/file/deletedirfiles.php DeleteDirFiles} поддерживает рекурсию и обрабатывает каталоги наравне с файлами.
+	 * Unlike {@link https://dev.1c-bitrix.ru/api_help/main/functions/file/deletedirfiles.php DeleteDirFiles} supports recursion and browsing directories versus files.
 	 *
-	 * @param string $source Абсолютный путь к папке, откуда скопированы файлы
-	 * @param string $target Абсолютный путь к папке, куда скопированы файлы
+	 * @param string $source Absolute path to the folder where the files were copied from
+	 * @param string $target Absolute path to the folder where the files are copied
 	 * @return bool
 	 */
 	public function removeInstalled($source, $target)

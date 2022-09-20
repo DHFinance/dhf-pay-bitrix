@@ -185,8 +185,8 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 	}
 
 	/**
-	 * Возвращает сумму счета. Если валюта счета отличается от CSPR,
-	 * производит конвертацию по текущему курсу с помощью модуля «Валюты»
+	 * Returns invoice summ. Converts it to CSPR currency if invoice currency differs from CSPR.
+	 * Conversion is performed with Currency module.
 	 *
 	 * @param Sale\Payment $payment
 	 * @return float
@@ -282,7 +282,7 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 		}
 
 		/**
-		 * Сумма передается в обработчик в «мотсах», преобразуем в CSPR
+		 * Passed to handler in MOTS», should convert it to CSPR
 		 */
 		$dto->amount /= \DHF\Pay\Payments::MOTS_S;
 
@@ -374,7 +374,7 @@ class DhfiHandler extends Sale\PaySystem\ServiceHandler
 
 			$paymentInfo = self::getPaymentInfo($dto);
 			return $paymentInfo
-				// При оплате старых счетов у платежа указан ID платежной системы «Счет» вместо той, что выбрал пользователь на публичной странице счета :/
+				// Old invoices always have a paysystem Bill intead of actually selected by user on and invoice page
 				/*&& $paymentInfo['PAYSYSTEM_ID'] == $paySystemId*/
 				&& $paymentInfo['REGISTRY'] == $service->getField('ENTITY_REGISTRY_TYPE');
 		} catch (\Exception $e) {

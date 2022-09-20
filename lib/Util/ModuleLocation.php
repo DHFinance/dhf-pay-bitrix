@@ -7,7 +7,7 @@ use const Citrus\DHFi\MODULE_ID;
 class ModuleLocation
 {
 	/**
-	 * @return string Путь установки модуля от корня сайта: папка /bitrix или /local
+	 * @return string Top level folder where module is installed relative to DOCUMENT_ROOT: /bitrix or /local
 	 */
 	public static function getBxRoot()
 	{
@@ -17,7 +17,7 @@ class ModuleLocation
 	}
 
 	/**
-	 * @return string Путь к папке с модулем относительно корня сайта
+	 * @return string Module path relative to DOCUMENT_ROOT
 	 */
 	public static function getModuleDir()
 	{
