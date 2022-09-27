@@ -13,10 +13,7 @@ require $_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-// Альтернативный способ вывода ошибок типа "DB query error.":
-// $GLOBALS["DB"]->debug = true;
-
-// Заменяем вывод фатальных ошибок Битрикса на STDERR - чтобы не было "молчаливого" поведения
+// Replaces exception handler to output errors to STDERR
 
 class PhpunitFileExceptionHandlerLog extends Bitrix\Main\Diag\FileExceptionHandlerLog
 {

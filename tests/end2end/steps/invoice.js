@@ -21,7 +21,7 @@ module.exports = {
         I.amOnPage(invoice.url);
 
         /**
-         * Меню Действия → Ссылка на счет
+         * Actions → Link to invoice action
          */
         I.click('#crm_invoice_toolbar_leftMenu', '.bx-crm-view-menu');
         // noinspection JSUnresolvedFunction

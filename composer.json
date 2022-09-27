@@ -1,6 +1,6 @@
 {
   "name": "citrus-soft/dhfi",
-  "description": "Приём оплаты по счетам CRM через DHFinance",
+  "description": "Bitrix24 CRM payments through DHFinance",
   "type": "bitrix-d7-module",
   "minimum-stability": "dev",
   "prefer-stable": true,

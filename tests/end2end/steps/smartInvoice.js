@@ -70,7 +70,7 @@ module.exports = {
         });
         I.waitForInvisible(sidepanelIframe, 5);
 
-        //#region Вытащим ссылку, появившуюся из поля ввода сообщения
+        //#region Extract link appeared in text input
         const textWithLink = await I.grabValueFrom('#smart_invoice_details_c1_timeline_sms');
         const textWithLinkRegexp = elements.paymentLinkRegexp;
         assert.match(textWithLink, textWithLinkRegexp, "Public pament link not found");

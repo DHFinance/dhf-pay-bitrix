@@ -5,8 +5,8 @@ module.exports = {
     async check(expectedAmount) {
 
         /**
-         * Первый переход по платежной ссылке (без кеша в браузере) отображает пустую страницу
-         * Сообщениями об ошибках в консоли: net::ERR_HTTP2_PROTOCOL_ERROR 200
+         * First navigation without browser cache leads to empty page
+         * with errors in browser console: net::ERR_HTTP2_PROTOCOL_ERROR 200
          * @see ../tests/smartInvoice.js
          */
         I.see(`Amount`);
